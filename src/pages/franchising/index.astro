@@ -1,0 +1,57 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import { href } from '../../lib/util';
+import { glossary, downloads, desatero } from '../../data/franchising';
+
+const articles = (await getCollection('articles')).sort((a, b) => a.data.order - b.data.order);
+---
+<Base title="Franchising" description="Co je franchising, jeho historie, slovníček pojmů a desatero rad pro franchisory.">
+  <PageHead title="O franchisingu" lead="Poznat, pochopit, použít. Základy, historie a praktické rady pro ty, kdo chtějí franšízu nabízet nebo provozovat." />
+
+  <section class="section">
+    <div class="wrap split">
+      <div>
+        <h2>Základy</h2>
+        <ul class="article-list">
+          {articles.map((a) => (
+            <li><a href={href(`franchising/${a.id}/`)}><strong>{a.data.title}</strong><span>{a.data.lead}</span></a></li>
+          ))}
+          <li><a href={href('franchising/desatero/')}><strong>Desatero rad pro franchisory</strong><span>Deset zásad, na kterých stojí úspěšná franšízová síť – od produktu po komunikaci s franchisees.</span></a></li>
+        </ul>
+      </div>
+      <aside>
+        <div class="box">
+          <h3>Ke stažení</h3>
+          <ul style="padding-left:1.1em;font-size:var(--fs-1)">
+            {downloads.map(([t, u]) => <li><a href={u}>{t}</a> (PDF)</li>)}
+          </ul>
+        </div>
+        <div class="box">
+          <h3>Jak „franchising“ vyslovovat?</h3>
+          <p style="font-size:var(--fs-1)">Anglicky [frančájzin] – mezinárodně srozumitelné. Nebo počeštěně [franšízing] – snadno se vyslovuje.</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section section--stone">
+    <div class="wrap">
+      <h2>Slovníček</h2>
+      <dl class="glossary">
+        {glossary.map(([t, d]) => <div><dt>{t}</dt><dd>{d}</dd></div>)}
+      </dl>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2>Desatero rad pro franchisory</h2>
+      <ol class="ten">
+        {desatero.map((r) => <li><div><h2>{r.title}</h2></div></li>)}
+      </ol>
+      <p style="margin-top:24px"><a class="btn btn--dark" href={href('franchising/desatero/')}>Číst desatero celé</a></p>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,56 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Practical from '../../components/Practical.astro';
+import { href, img, fmtLong, isoDate, todayISO, label } from '../../lib/util';
+
+export async function getStaticPaths() {
+  const events = await getCollection('events');
+  return events.map((e) => ({ params: { slug: e.id }, props: { event: e } }));
+}
+
+const { event: e } = Astro.props;
+const d = e.data;
+const { Content } = await render(e);
+const isUpcoming = isoDate(d.date) >= todayISO();
+const isMec = d.venue.includes('Magenta');
+---
+<Base title={d.title} description={`${label(e)} – ${fmtLong(d.date)}, ${d.venue}`} image={d.image ? img(d.image) : undefined}>
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <nav class="crumbs" aria-label="Drobečková navigace"><a href={href()}>Úvod</a> / <a href={href('akce/')}>Akce</a></nav>
+        <p class="hero-kicker">{label(e)}{isUpcoming ? '' : ' – proběhlo'}</p>
+        <p class="ordinal" aria-hidden="true">{d.number}.</p>
+        <h1>{d.title}</h1>
+        <dl class="when">
+          <dt>Kdy</dt><dd>{fmtLong(d.date)}, {d.start}–{d.end}</dd>
+          <dt>Kde</dt><dd>{d.venue}</dd>
+          {d.speakers && <><dt>Host</dt><dd>{d.speakers}</dd></>}
+        </dl>
+        <div class="btn-row">
+          {isUpcoming && <a class="btn btn--primary" href={href(`akce/${e.id}.ics`)} download>Přidat do kalendáře</a>}
+          {d.invite && <a class="btn btn--ghost" href={d.invite}>E-pozvánka</a>}
+        </div>
+      </div>
+      {d.image && (
+        <figure class="hero-figure">
+          <img src={img(d.image)} alt={`Pozvánka: ${d.title}`} width="640" height="480" />
+        </figure>
+      )}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap prose">
+      <Content />
+      {isUpcoming && isMec && (
+        <>
+          <h2>Praktické informace</h2>
+          <Practical />
+        </>
+      )}
+      <p style="margin-top:40px"><a class="ui" href={href('akce/')}>Zpět na všechny akce</a></p>
+    </div>
+  </section>
+</Base>

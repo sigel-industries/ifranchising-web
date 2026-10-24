@@ -1,0 +1,66 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { contact } from '../data/site';
+
+// Formulář: pokud je nastaven PUBLIC_FORM_ENDPOINT (např. Formspree / Web3Forms),
+// odešle se tam. Jinak se otevře e-mailový klient s předvyplněnou zprávou.
+const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT ?? '';
+const officeEmail = contact.people[1].email;
+---
+<Base title="Kontakt" description="Kontakt na Český institut pro franchising a Franchise Club, Spálená 51, Praha 1.">
+  <PageHead title="Kontakt" lead="Kancelář máme v centru Prahy, ve Spálené 51, kousek od stanice metra Národní třída." />
+
+  <section class="section">
+    <div class="wrap cols-2">
+      <div>
+        {contact.people.map((p) => (
+          <div style="padding:20px 0;border-top:1px solid var(--line)">
+            <h2 style="font-size:var(--fs-3);margin-bottom:4px">{p.name}</h2>
+            <p class="muted" style="margin-bottom:8px">{p.role}</p>
+            <p class="ui" style="margin:0">
+              <a href={`mailto:${p.email}`}>{p.email}</a><br />
+              <a href={`tel:${p.phone.replace(/\s/g, '')}`}>{p.phone}</a>
+            </p>
+          </div>
+        ))}
+        <div style="padding:20px 0;border-top:1px solid var(--line)">
+          <h2 style="font-size:var(--fs-3);margin-bottom:4px">{contact.org}</h2>
+          <p style="margin-bottom:8px">{contact.street}, {contact.city}<br />Tel. <a href={`tel:${contact.phone.replace(/\s/g, '')}`}>{contact.phone}</a></p>
+          <p class="muted" style="font-size:var(--fs-0)">IČ {contact.ico}. {contact.register}</p>
+          <p class="muted" style="font-size:var(--fs-0)">Ve stejné kanceláři sídlí také Franchise Club a poradenská firma FranKey – franchising consulting.</p>
+          <p><a href="https://maps.google.com/?q=Sp%C3%A1len%C3%A1+51,+Praha+1">Otevřít v mapách</a></p>
+        </div>
+      </div>
+
+      <div>
+        <h2>Napište nám</h2>
+        <form class="form" id="kontakt-form" action={endpoint || undefined} method="post" data-email={officeEmail}>
+          <div class="row">
+            <label>Jméno a příjmení<input name="jmeno" autocomplete="name" required /></label>
+            <label>Firma<input name="firma" autocomplete="organization" /></label>
+          </div>
+          <div class="row">
+            <label>E-mail<input name="email" type="email" autocomplete="email" required /></label>
+            <label>Telefon<input name="telefon" type="tel" autocomplete="tel" /></label>
+          </div>
+          <label>Zpráva<textarea name="zprava" rows="6" required></textarea></label>
+          <p class="form-note">Údaje použijeme jen k odpovědi na vaši zprávu. <a href="https://www.ifranchising.cz/osobni-udaje.php">Zásady ochrany osobních údajů</a></p>
+          <div><button class="btn btn--dark" type="submit">Odeslat zprávu</button></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const form = document.getElementById('kontakt-form') as HTMLFormElement | null;
+    if (form && !form.getAttribute('action')) {
+      form.addEventListener('submit', (ev) => {
+        ev.preventDefault();
+        const f = new FormData(form);
+        const body = `${f.get('zprava')}\n\n${f.get('jmeno')}${f.get('firma') ? `, ${f.get('firma')}` : ''}\n${f.get('email')}${f.get('telefon') ? `, ${f.get('telefon')}` : ''}`;
+        location.href = `mailto:${form.dataset.email}?subject=${encodeURIComponent('Dotaz z webu')}&body=${encodeURIComponent(body)}`;
+      });
+    }
+  </script>
+</Base>

@@ -1,0 +1,45 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { href, img } from '../lib/util';
+import { patrons, productPartners, expertPartners, type Partner } from '../data/site';
+
+const link = (p: Partner) => (p.url.startsWith('/') ? href(p.url) : p.url);
+const natural = [
+  'všeobecná i odborná média', 'obchodní komory a profesní svazy', 'státní orgány, instituce a vládní agentury',
+  'poradci pro franchising a poradenské společnosti', 'advokátní a patentové kanceláře', 'banky a finanční instituce',
+  'výzkumné a marketingové agentury', 'pořadatelé odborných vzdělávacích akcí', 'školy, vzdělávací instituce a studenti',
+];
+---
+<Base title="Partneři" description="Patroni a partneři Franchise Clubu a Českého institutu pro franchising.">
+  <PageHead title="Patroni a partneři" lead="Stojíme na vzájemně užitečné spolupráci s významnými společnostmi, institucemi a odborníky. Děkujeme." />
+
+  {[['Patron klubu', patrons], ['Produktoví partneři', productPartners], ['Odborní partneři', expertPartners]].map(([title, list], i) => (
+    <section class={`section ${i % 2 ? 'section--stone' : ''}`}>
+      <div class="wrap">
+        <h2>{title as string}</h2>
+        <div class="partner-list">
+          {(list as Partner[]).map((p) => (
+            <a href={link(p)}>
+              <img src={img(p.logo)} alt="" loading="lazy" />
+              <div><strong>{p.name}</strong>{p.text && <span>{p.text}</span>}</div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <section class="section section--petrol">
+    <div class="wrap cols-2">
+      <div>
+        <h2 style="color:#fff">Hledáme partnery</h2>
+        <p>Za své přirozené partnery považujeme ty, kteří mohou a chtějí pomoci naše poslání naplnit. Hledáme také spolupracovníky pro výzkumný projekt Czech Franchise Survey.</p>
+        <a class="btn btn--primary" href={href('kontakt/')}>Ozvěte se nám</a>
+      </div>
+      <ul style="columns:2;column-gap:32px;padding-left:1.1em;font-size:var(--fs-1)">
+        {natural.map((n) => <li style="break-inside:avoid;margin-bottom:6px">{n}</li>)}
+      </ul>
+    </div>
+  </section>
+</Base>

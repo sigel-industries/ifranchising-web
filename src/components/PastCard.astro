@@ -1,0 +1,18 @@
+---
+import { href, img, fmtShort, type ClubEvent } from '../lib/util';
+interface Props { event: ClubEvent }
+const { event: e } = Astro.props;
+const d = e.data;
+---
+<a class="past" href={href(`akce/${e.id}/`)} data-kind={d.kind}>
+  <figure>
+    {d.image
+      ? <img src={img(d.image)} alt="" loading="lazy" width="400" height="250" />
+      : <div style="aspect-ratio:16/10;background:var(--stone);border-radius:4px"></div>}
+    <span class="badge" aria-label={d.kind === 'vecer' ? `${d.number}. večer` : `${d.number}. exkurze`}>
+      {d.kind === 'exkurze' ? `E${d.number}` : `${d.number}.`}
+    </span>
+  </figure>
+  <h3>{d.title}</h3>
+  <div class="t-meta">{fmtShort(d.date)}{d.speakers ? `, ${d.speakers.split(',')[0]}` : ''}</div>
+</a>

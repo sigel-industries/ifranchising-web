@@ -1,0 +1,27 @@
+---
+import { practical } from '../data/site';
+---
+<div class="facts">
+  <div>
+    <h3>Kde</h3>
+    <p>{practical.venue}</p>
+    <p><a href={practical.mapUrl}>Otevřít mapu</a></p>
+  </div>
+  <div>
+    <h3>Vstupné</h3>
+    <ul>
+      {practical.prices.map(([who, price]) => <li><span>{who}</span><span>{price}</span></li>)}
+    </ul>
+    <p class="muted" style="margin-top:10px;font-size:var(--fs-0)">{practical.priceNote}</p>
+  </div>
+  <div>
+    <h3>Pro koho</h3>
+    <p>{practical.audience}</p>
+    <p>Členové mají vstup zdarma pro sebe a jednoho hosta.</p>
+  </div>
+  <div>
+    <h3>Dress code</h3>
+    <p>{practical.dress}</p>
+    <p class="muted" style="font-size:var(--fs-0)">{practical.photo}</p>
+  </div>
+</div>

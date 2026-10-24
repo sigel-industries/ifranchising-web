@@ -1,0 +1,65 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { href, img } from '../lib/util';
+import { contact } from '../data/site';
+
+const services = [
+  'Komplexní analýza a zhodnocení připravenosti pro franchising',
+  'Analýza a zhodnocení marketingu ve firmě',
+  'Strategie rozvoje franchisingové sítě a centrály',
+  'Optimalizace know-how a jeho zapracování do franchisingového manuálu',
+  'Vypracování smlouvy o franchisingu',
+  'Tvorba obchodní značky a způsobu jejího užívání ve franchisingu',
+  'Nabídkový prospekt a katalog pro zájemce o franšízu',
+  'Moderování výročních setkání franchisees',
+  'Poradenství v oblasti merchandisingu',
+  'Školení a trénink prodejní komunikace',
+];
+const refs: [string, string][] = [
+  ['bauSpezi', 'hobbymarket'], ['DECOLAND', 'moderní nábytek'], ['EVROPA RK', 'realitní služby'],
+  ['GEPARD FINANCE', 'financování, hypotéky'], ['GUESTO', 'značkový bar restaurant pivovaru Starobrno'],
+  ['INDECO CZ', 'skříně na míru'], ['JACQUES DESSANGE Praha', 'kosmetický salón'],
+  ['JLV/PONT', 'convenience prodejny „PONT“'], ['KOMERČNÍ BANKA', 'financování franchisingu'],
+  ['MEDICLINIC', 'zdravotní ambulance'], ['MEXX REALITY', 'realitní kancelář'],
+  ['PENAM', 'prodejny pečiva „Maková bába“'], ['PIVNÍ POHOTOVOST', 'velkoobchod pivovaru Staropramen'],
+  ['POMPO', 'hračky a oblečení pro děti'], ['POTREFENÁ HUSA', 'značkové restaurace pivovaru Staropramen'],
+  ['PRAMEN CZ', 'prodejny potravin Samka'], ['PRAŽSKÁ PAROPLAVEBNÍ', 'lodní restaurace'],
+  ['REAL SPEKTRUM', 'realitní kanceláře'], ['TIME OUT', 'značkové oblečení pro mladé'],
+  ['W.E.L.L. GROUP', 'convenience store „bon & petit“'],
+];
+const lead = contact.people[0];
+---
+<Base title="Poradenství" description="Poradenství ve franchisingu ve spolupráci s FranKey – franchising consulting.">
+  <PageHead title="Poradenství ve franchisingu" lead="Pomáháme franchising aplikovat co nejefektivněji – a tím získat nebo udržet konkurenční výhodu. Ve spolupráci s partnerskou firmou FranKey – franchising consulting." />
+
+  <section class="section">
+    <div class="wrap split">
+      <div>
+        <h2>S čím pomáháme</h2>
+        <ul class="article-list">
+          {services.map((s) => <li><p style="padding:14px 0;margin:0;font:600 var(--fs-2)/1.35 var(--display)">{s}</p></li>)}
+        </ul>
+      </div>
+      <aside>
+        <div class="box">
+          <img src={img('frankey-consulting.gif')} alt="FranKey – franchising consulting" style="max-width:180px;margin-bottom:16px" />
+          <h3>{lead.name}</h3>
+          <p style="font-size:var(--fs-1)">Poradce pro franšízing s praxí od roku 2006.</p>
+          <p style="font-size:var(--fs-1)"><a href={`mailto:${lead.email}`}>{lead.email}</a><br /><a href={`tel:${lead.phone.replace(/\s/g, '')}`}>{lead.phone}</a></p>
+          <a class="btn btn--dark" href={href('kontakt/')}>Domluvit konzultaci</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section section--stone">
+    <div class="wrap">
+      <h2>Pro koho jsme pracovali</h2>
+      <p class="muted">Výběr z referencí.</p>
+      <div class="partner-list" style="grid-template-columns:repeat(auto-fill,minmax(240px,1fr))">
+        {refs.map(([n, d]) => <div style="padding:16px 16px 16px 0;border-bottom:1px solid var(--line)"><strong class="ui">{n}</strong><br /><span class="muted" style="font-size:var(--fs-1)">{d}</span></div>)}
+      </div>
+    </div>
+  </section>
+</Base>

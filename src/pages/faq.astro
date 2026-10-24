@@ -1,0 +1,31 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { href } from '../lib/util';
+import { faq } from '../data/franchising';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
+};
+---
+<Base title="Časté otázky" description="Odpovědi poradce pro franšízing na nejčastější otázky franchisorů i franchisees.">
+  <PageHead title="Časté otázky" lead="Odpovídá poradce pro franšízing Dr. Jaroslav Tamchyna." />
+  <section class="section">
+    <div class="wrap">
+      {faq.map(([q, a], i) => (
+        <details class="qa" open={i === 0}>
+          <summary>{q}</summary>
+          <p>{a}</p>
+        </details>
+      ))}
+      <div class="box" style="margin-top:48px;background:var(--stone);border:0">
+        <h3>Máte vlastní otázku?</h3>
+        <p>Napište nám. Odpovíme a s vaším svolením otázku i odpověď zveřejníme.</p>
+        <a class="btn btn--dark" href={href('kontakt/')}>Poslat dotaz</a>
+      </div>
+    </div>
+  </section>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+</Base>

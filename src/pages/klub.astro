@@ -1,0 +1,114 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Practical from '../components/Practical.astro';
+import { Content as Archiv } from '../data/archiv.md';
+import { href, img } from '../lib/util';
+
+const national: [string, string, string][] = [
+  ['2014', 'Realitní summit', '15. 5. 2014, OKsystem'],
+  ['2013', 'Realitní summit', '15. 5. 2013, Kaiserštejnský palác'],
+  ['2012', 'Realitní summit', '17. 5. 2012, Corinthia Hotel Prague'],
+  ['2011', 'Sítě & služby realitních kanceláří', '3. 5. 2011, Hotel Novotel'],
+  ['2010', 'Franchising &… sítě realitních kanceláří', '11. 5. 2010, Hotel Novotel'],
+  ['2009', 'Franchising &… sítě realitních kanceláří', '14. 5. 2009, Hotel Novotel'],
+  ['2008', 'Franchising &… sítě realitních kanceláří', '15. 5. 2008, Hotel Novotel'],
+  ['2008', 'Franchising &… ZNAČKA', '23. 4. 2008, Hotel Novotel'],
+  ['2007', 'Franchising &… sítě realitních kanceláří', '5. 6. 2007, Hotel Novotel'],
+  ['2007', 'Franchising &… REKLAMA', '1. 3. 2007, Hotel Novotel'],
+  ['2006', 'Franchising &… ZNAČKA', '22. 5. 2006, Hotel Ibis'],
+];
+const international: [string, string, string][] = [
+  ['2020', 'Franchise ToDay 2020', '23. 4. 2020, Palác OKsystem'],
+  ['2019', 'Franchise Day PRO FUTURO', '16. 5. 2019, Palác OKsystem'],
+  ['2018', 'Franchise Day 2018', '26. 4. 2018, Palác OKsystem'],
+  ['2017', 'Franchise Day PRO FUTURO', '31. 10. 2017, Palác OKsystem'],
+  ['2017', 'Franchise Day Prague 2017', '11. 5. 2017, Palác OKsystem'],
+  ['2016', 'Franchise Day Prague 2016', '15. 11. 2016, Palác OKsystem'],
+  ['2015', 'Franchise Day Prague / FrAMchise Day', '12. 11. 2015, Palác OKsystem'],
+  ['2014', 'Franchise Day Prague / FrAMchise Day', '13. 11. 2014, Palác OKsystem'],
+  ['2013', 'Franchise Day Prague / FrAMchise Day', '7. 11. 2013, Kaiserštejnský palác'],
+  ['2012', 'Franchise Days Prague', '9.–10. 11. 2012, Corinthia Hotel Prague'],
+  ['2011', 'FrAMchise Day – American Franchise Day', '20. 10. 2011, Corinthia Hotel Prague'],
+  ['2010', 'FrAMchise Day – American Franchise Day', '20. 10. 2010, Prague Marriott Hotel'],
+  ['2009', 'FrAMchise Day – American Franchise Day', '20. 10. 2009, Hilton Prague Old Town'],
+];
+---
+<Base title="Klub" description="Franchise Club – členství, klubové večery, hosté a konference od roku 2006.">
+  <PageHead
+    title="Franchise Club"
+    lead="Podnikatelský klub založený v roce 2006. Dnes kolem stovky stálých členů a nejširší platforma zaměřená na franšízing v Česku."
+  />
+
+  <section class="section">
+    <div class="wrap split">
+      <div class="prose">
+        <h2 style="margin-top:0">Členové – M.F.C.</h2>
+        <p>Jako stálé členy (Member of the Franchise Club – M.F.C.) sdružujeme především majitele a vrcholové manažery společností, které franšízing používají, ty, kteří se na tuto formu podnikání připravují, a potenciální franšízanty. Členství přináší platformu pro neformální výměnu informací a zkušeností, profesní růst a tříbení názorů, ale také větší důvěryhodnost a kontaktní místo pro nové zájemce o franšízu.</p>
+        <p>Členy klubu jsou vedle „kapitánů“ franšízingu také dodavatelé služeb důležitých pro tento model podnikání. Klubové akce jim přinášejí osobní kontakt s potenciálními zákazníky a hlubší porozumění oboru.</p>
+        <p>Členy Franchise Clubu jsou fyzické osoby, nikoli firmy. Věříme, že konkrétní lidé jsou skutečnými nositeli znalostí, vztahů a zaujetí pro věc. Formální zastřešování a symbolické členství s potěšením přenecháváme jiným profesním sdružením.</p>
+
+        <h2>Kdo u nás vystupuje</h2>
+        <p>Do diskusních večerů zveme podnikatelské a manažerské osobnosti, zejména ty, které formují české franšízové a síťové podnikání. Představujeme jejich vize, zkušenosti a „formule úspěchu“, ale často i složité a zajímavé životní osudy. Hosty jsou i osobnosti, které franšízingu pomáhají nepřímo – novináři, ekonomové, právníci, vědci.</p>
+
+        <h2>Kdo na večery chodí</h2>
+        <p>Akce klubu navštívily již tisíce lidí. Převážně majitelé a manažeři firem, které franšízing používají nebo se na něj připravují, ale také investoři, bankéři, pojišťováci, realitní specialisté, právníci a patentoví zástupci, designéři, lidé z reklamních agentur, výzkumu, obchodních komor, ambasád a ministerstev, studenti a učitelé. Častými hosty jsou novináři.</p>
+
+        <h2>Proč klub v době internetu?</h2>
+        <p>První část každého večera je <em>Business Meeting Point</em> – osobní a neformální setkávání u občerstvení, výměna zkušeností a nové kontakty. Doporučujeme vzít si větší množství vizitek.</p>
+      </div>
+      <aside>
+        <div class="box">
+          <h3>Chcete se stát členem?</h3>
+          <p style="font-size:var(--fs-1)">Přijďte nejdřív jako host na klubový večer a ozvěte se tajemnici klubu.</p>
+          <a class="btn btn--dark" href={href('kontakt/')}>Kontaktovat klub</a>
+        </div>
+        <a class="box" style="display:block;text-decoration:none;color:inherit" href={img('franchise-club-prehled-znacek-clenu-2023-big.png')}>
+          <h3>Značky našich členů</h3>
+          <img src={img('franchise-club-prehled-znacek-clenu-2023.png')} alt="Přehled značek členů Franchise Clubu 2023" loading="lazy" />
+          <p class="muted" style="font-size:var(--fs-0);margin:10px 0 0">Přehled 2023, otevřít ve velkém rozlišení</p>
+        </a>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section section--stone">
+    <div class="wrap">
+      <h2>Praktické informace ke klubovým večerům</h2>
+      <p class="lead" style="margin-bottom:32px">Večery probíhají od 18:00 do 20:00 v konferenčním prostoru Magenta Experience Center.</p>
+      <Practical />
+    </div>
+  </section>
+
+  <section class="section" id="archiv">
+    <div class="wrap">
+      <h2>Hosté klubu od roku 2006</h2>
+      <p class="lead">Dvacet sezón, přes 180 večerů. Novější večery s pozvánkami najdete v <a href={href('akce/')}>přehledu akcí</a>.</p>
+      <div class="archive"><Archiv /></div>
+    </div>
+  </section>
+
+  <section class="section section--stone">
+    <div class="wrap cols-2">
+      <div>
+        <h2>Mezinárodní konference</h2>
+        <ul class="timeline">
+          {international.map(([y, n, w]) => <li style="padding:12px 0;border-top:1px solid var(--line)"><strong class="ui">{n}</strong><br /><span class="muted">{w}</span></li>)}
+        </ul>
+      </div>
+      <div>
+        <h2>Národní konference</h2>
+        <ul class="timeline">
+          {national.map(([y, n, w]) => <li style="padding:12px 0;border-top:1px solid var(--line)"><strong class="ui">{n}</strong><br /><span class="muted">{w}</span></li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2>Czech Franchise Survey</h2>
+      <p>Výzkum franchisingu a sledování trendů na českém trhu. Hledáme spolupracovníky pro výzkumný projekt – <a href={href('kontakt/')}>ozvěte se nám</a>.</p>
+    </div>
+  </section>
+</Base>

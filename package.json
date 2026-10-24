@@ -1,0 +1,16 @@
+{
+  "name": "ifranchising-web",
+  "version": "1.0.0",
+  "description": "Franchise Club / Český institut pro franchising – web",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "fetch-assets": "bash scripts/fetch-assets.sh"
+  },
+  "dependencies": {
+    "astro": "^5.18.2"
+  },
+  "private": true,
+  "type": "module"
+}

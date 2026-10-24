@@ -1,0 +1,28 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import { href } from '../../lib/util';
+import { desatero, downloads } from '../../data/franchising';
+---
+<Base title="Desatero rad pro franchisory" description="Deset zásad, na kterých stojí úspěšná franšízová síť.">
+  <PageHead title="Desatero rad pro franchisory" lead="Deset zásad, na kterých stojí úspěšná franšízová síť." crumbs={[['franchising/', 'Franchising']]} />
+  <section class="section">
+    <div class="wrap">
+      <ol class="ten">
+        {desatero.map((r) => (
+          <li>
+            <div>
+              <h2>{r.title}</h2>
+              {r.body.map((p) => <p>{p}</p>)}
+            </div>
+          </li>
+        ))}
+      </ol>
+      <div class="box" style="margin-top:40px;background:var(--stone);border:0">
+        <h3>Chystáte vlastní franšízovou síť?</h3>
+        <p>Stáhněte si <a href={downloads[1][1]}>Pět kroků k vlastnímu franchisingovému podniku</a> (PDF), nebo se poraďte přímo s námi.</p>
+        <a class="btn btn--dark" href={href('poradenstvi/')}>Poradenství</a>
+      </div>
+    </div>
+  </section>
+</Base>

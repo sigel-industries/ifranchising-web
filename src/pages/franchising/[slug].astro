@@ -1,0 +1,29 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import { href } from '../../lib/util';
+
+export async function getStaticPaths() {
+  const list = (await getCollection('articles')).sort((a, b) => a.data.order - b.data.order);
+  return list.map((a, i) => ({
+    params: { slug: a.id },
+    props: { article: a, next: list[i + 1] },
+  }));
+}
+const { article, next } = Astro.props;
+const { Content } = await render(article);
+---
+<Base title={article.data.title} description={article.data.lead}>
+  <PageHead title={article.data.title} lead={article.data.lead} crumbs={[['franchising/', 'Franchising']]} />
+  <section class="section">
+    <div class="wrap prose">
+      <Content />
+      <p style="margin-top:48px">
+        {next
+          ? <a class="btn btn--dark" href={href(`franchising/${next.id}/`)}>Další: {next.data.title}</a>
+          : <a class="btn btn--dark" href={href('franchising/desatero/')}>Další: Desatero rad pro franchisory</a>}
+      </p>
+    </div>
+  </section>
+</Base>

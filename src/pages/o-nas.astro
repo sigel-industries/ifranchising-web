@@ -1,0 +1,61 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { href, img } from '../lib/util';
+---
+<Base title="O nás" description="Český institut pro franchising (ČIFRA) – národní centrum pro vzdělávání, poradenství a výzkum ve franchisingu.">
+  <PageHead title="Český institut pro franchising" lead="ČIFRA je národní centrum pro vzdělávací, popularizační, poradenskou, publikační a vědeckou činnost ve franchisingu a v oborech s ním souvisejících." />
+
+  <section class="section">
+    <div class="wrap cols-2" style="align-items:center">
+      <figure style="margin:0">
+        <img src={img('jaroslav-tamchyna.jpg')} alt="RNDr. Jaroslav Tamchyna" style="border-radius:var(--radius);max-width:360px" />
+      </figure>
+      <div class="prose">
+        <blockquote>„Český institut pro franchising vznikl proto, aby co nejvíce podnikatelů, zejména těch menších, mohlo tuto po celém světě osvědčenou metodu podnikání snadno poznat, dobře pochopit a rychle použít.“</blockquote>
+        <p class="ui"><strong>Dr. Jaroslav Tamchyna</strong><br /><span class="muted">managing partner ČIFRA, prezident Franchise Clubu</span></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--stone">
+    <div class="wrap cols-3">
+      <div>
+        <h3>Poznat</h3>
+        <p>Usilujeme o větší publicitu a tím i všeobecné povědomí o franchisingu jako takovém.</p>
+      </div>
+      <div>
+        <h3>Pochopit</h3>
+        <p>Přednáškami, kurzy, semináři a konferencemi pomáháme hlouběji pochopit principy a výhody franchisingu.</p>
+      </div>
+      <div>
+        <h3>Použít</h3>
+        <p>Zprostředkováním informací a poskytnutím know-how pomáháme franchising v podnikání efektivně použít.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split">
+      <div class="prose">
+        <h2 style="margin-top:0">Čím jsme prospěšní</h2>
+        <p>Aktivně sledujeme vývojové trendy v oboru a jsme v kontaktu s lídry franchisingu a příbuzných oborů v ČR i v zahraničí. Dáváme firmám i jednotlivcům možnost získat tržní, profesní i osobní náskok.</p>
+        <p>Jsme zdrojem informací, znalostí a zkušeností pro všechny, kdo se o franchising v Česku zajímají. Poskytujeme a zprostředkováváme nové i osvědčené znalosti užitečné pro podnikání a řízení a pomáháme najít cestu, jak franchising v praxi správně a efektivně využít.</p>
+
+        <h2>Komu chceme být užiteční</h2>
+        <p>Zaměřujeme se na podporu malých a středních podniků a živnostníků, ale máme co nabídnout i velkým podnikům a obchodním sítím. Chceme být užiteční také bankám, leasingovým a pojišťovacím společnostem, poradenským, právním a patentovým kancelářím, státním institucím, školám a médiím.</p>
+
+        <h2>Informace, které spojují</h2>
+        <p>Chceme českou franchisingovou komunitu spojovat a rozvíjet – propojovat výzkum, informace a zkušenosti s lidmi, kteří franchising tvoří a využívají. Proto provozujeme <a href={href('klub/')}>Franchise Club</a>, platformu pro osobní setkávání a výměnu toho nejcennějšího: zkušeností a názorů.</p>
+        <p>Aktivně spolupracujeme s profesními sdruženími v oblasti franchisingu a dalších kooperačních forem podnikání a jejich aktivity doplňujeme.</p>
+      </div>
+      <aside>
+        <div class="box">
+          <h3>Členství v IFA</h3>
+          <p style="font-size:var(--fs-1)">ČIFRA i Franchise Club jsou členy International Franchise Association – největší mezinárodní profesní komunity ve franchisingu.</p>
+          <a href="https://www.franchise.org/">franchise.org</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,29 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { href } from '../lib/util';
+---
+<Base title="Členská zóna" description="Členská zóna Franchise Clubu – připravujeme.">
+  <PageHead title="Členská zóna" lead="Připravujeme místo jen pro členy klubu: přihlašování na večery, adresář členů a materiály z přednášek." />
+  <section class="section">
+    <div class="wrap cols-2">
+      <div>
+        <h2>Co tu bude</h2>
+        <ul class="article-list">
+          <li><p style="padding:14px 0;margin:0"><strong class="ui">Registrace na večery a exkurze</strong><br /><span class="muted">Potvrzení účasti i za hosta jedním klikem.</span></p></li>
+          <li><p style="padding:14px 0;margin:0"><strong class="ui">Adresář členů M.F.C.</strong><br /><span class="muted">Kontakty a značky členů, viditelné jen členům.</span></p></li>
+          <li><p style="padding:14px 0;margin:0"><strong class="ui">Prezentace a záznamy</strong><br /><span class="muted">Podklady z proběhlých večerů.</span></p></li>
+          <li><p style="padding:14px 0;margin:0"><strong class="ui">Benefity členů</strong><br /><span class="muted">Nabídky partnerů, např. pobyt ve Ville Dallmayr Eva.</span></p></li>
+        </ul>
+      </div>
+      <div class="box" style="background:var(--stone);border:0">
+        <h2 style="font-size:var(--fs-3)">Přihlášení</h2>
+        <form class="form" aria-describedby="login-note">
+          <label>E-mail<input type="email" disabled placeholder="vas@email.cz" /></label>
+          <div><button class="btn btn--dark" type="button" disabled style="opacity:.55;cursor:not-allowed">Poslat přihlašovací odkaz</button></div>
+          <p class="form-note" id="login-note">Přihlašování zatím není spuštěné. Do té doby se na akce hlaste u tajemnice klubu přes <a href={href('kontakt/')}>kontakt</a>.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+</Base>

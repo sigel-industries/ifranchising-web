@@ -1,0 +1,58 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import EventRow from '../../components/EventRow.astro';
+import PastCard from '../../components/PastCard.astro';
+import { getEvents, href } from '../../lib/util';
+
+const { upcoming, past } = await getEvents();
+const years = [...new Set(past.map((e) => e.data.date.getUTCFullYear()))];
+---
+<Base title="Akce" description="Klubové večery a exkurze Franchise Clubu – program a archiv.">
+  <PageHead title="Klubové večery a exkurze" lead="Jednou měsíčně debata s osobností, která formuje české franšízové a síťové podnikání. Několikrát ročně exkurze tam, kam se běžně nedostanete." />
+
+  <section class="section">
+    <div class="wrap">
+      <h2>Připravujeme</h2>
+      {upcoming.length
+        ? <ul class="timeline">{upcoming.map((e) => <EventRow event={e} soon />)}</ul>
+        : <p>Program další sezóny brzy zveřejníme. Chcete dostávat pozvánky? <a href={href('kontakt/')}>Napište nám</a>.</p>}
+    </div>
+  </section>
+
+  <section class="section section--stone">
+    <div class="wrap">
+      <h2>Proběhlo</h2>
+      <div class="filters" role="group" aria-label="Filtr akcí">
+        <button type="button" data-filter="all" aria-pressed="true">Vše</button>
+        <button type="button" data-filter="vecer" aria-pressed="false">Klubové večery</button>
+        <button type="button" data-filter="exkurze" aria-pressed="false">Exkurze</button>
+      </div>
+      {years.map((y) => (
+        <div class="year-block" style="margin-bottom:48px">
+          <h3 style="font-size:var(--fs-4)">{y}</h3>
+          <div class="grid-past">
+            {past.filter((e) => e.data.date.getUTCFullYear() === y).map((e) => <PastCard event={e} />)}
+          </div>
+        </div>
+      ))}
+      <p class="muted">Starší hosté od roku 2006 jsou v <a href={href('klub/#archiv')}>archivu klubu</a>.</p>
+    </div>
+  </section>
+
+  <script>
+    const buttons = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+    buttons.forEach((b) =>
+      b.addEventListener('click', () => {
+        const f = b.dataset.filter;
+        buttons.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+        document.querySelectorAll<HTMLElement>('.grid-past [data-kind]').forEach((el) => {
+          el.hidden = f !== 'all' && el.dataset.kind !== f;
+        });
+        document.querySelectorAll<HTMLElement>('.year-block').forEach((blk) => {
+          blk.hidden = !blk.querySelector('[data-kind]:not([hidden])');
+        });
+      }),
+    );
+  </script>
+</Base>

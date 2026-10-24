@@ -1,0 +1,14 @@
+---
+import Base from '../layouts/Base.astro';
+import { href } from '../lib/util';
+---
+<Base title="Stránka nenalezena">
+  <section class="hero">
+    <div class="wrap" style="display:block">
+      <p class="ordinal" aria-hidden="true">404.</p>
+      <h1>Tahle stránka tu není</h1>
+      <p style="max-width:52ch">Web má novou adresní strukturu, staré odkazy typu <em>aktivity.php</em> už nefungují. Program klubu najdete v přehledu akcí.</p>
+      <div class="btn-row"><a class="btn btn--primary" href={href('akce/')}>Přehled akcí</a><a class="btn btn--ghost" href={href()}>Úvodní stránka</a></div>
+    </div>
+  </section>
+</Base>

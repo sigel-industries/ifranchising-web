@@ -1,0 +1,20 @@
+---
+import { href, img, fmtLong, type ClubEvent } from '../lib/util';
+interface Props { event: ClubEvent; soon?: boolean }
+const { event: e, soon = false } = Astro.props;
+const d = e.data;
+---
+<li data-kind={d.kind}>
+  <a class="t-item" href={href(`akce/${e.id}/`)}>
+    <div class="t-num">
+      {d.number}.
+      <small>{d.kind === 'vecer' ? 'večer' : 'exkurze'}</small>
+    </div>
+    <div>
+      {soon && <span class="tag tag--soon">Připravujeme</span>}
+      <h3>{d.title}</h3>
+      <div class="t-meta">{fmtLong(d.date)}, {d.start}–{d.end}<br />{d.venue}</div>
+    </div>
+    {d.image && <img src={img(d.image)} alt="" loading="lazy" width="400" height="250" />}
+  </a>
+</li>

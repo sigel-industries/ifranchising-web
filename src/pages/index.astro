@@ -1,0 +1,107 @@
+---
+import Base from '../layouts/Base.astro';
+import Practical from '../components/Practical.astro';
+import EventRow from '../components/EventRow.astro';
+import PastCard from '../components/PastCard.astro';
+import { getEvents, href, img, fmtLong } from '../lib/util';
+import { patrons, productPartners, expertPartners } from '../data/site';
+
+const { upcoming, past } = await getEvents();
+const next = upcoming[0];
+const hero = next ?? past[0];
+const later = upcoming.slice(1);
+const recent = past.slice(0, 6);
+const totalEvenings = Math.max(...[...upcoming, ...past].filter((e) => e.data.kind === 'vecer').map((e) => e.data.number));
+const logos = [...patrons, ...productPartners, ...expertPartners];
+---
+<Base title="home">
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <p class="hero-kicker">{next ? 'Příští klubový večer' : 'Poslední klubový večer'}</p>
+        <p class="ordinal" aria-hidden="true">{hero.data.number}.</p>
+        <h1>{hero.data.title}</h1>
+        <dl class="when">
+          <dt>Kdy</dt><dd>{fmtLong(hero.data.date)}, {hero.data.start}–{hero.data.end}</dd>
+          <dt>Kde</dt><dd>{hero.data.venue}</dd>
+          {hero.data.speakers && <><dt>Host</dt><dd>{hero.data.speakers}</dd></>}
+        </dl>
+        <div class="btn-row">
+          <a class="btn btn--primary" href={href(`akce/${hero.id}/`)}>Detail večera</a>
+          {next && <a class="btn btn--ghost" href={href(`akce/${hero.id}.ics`)} download>Přidat do kalendáře</a>}
+        </div>
+      </div>
+      {hero.data.image && (
+        <figure class="hero-figure">
+          <img src={img(hero.data.image)} alt={`Pozvánka: ${hero.data.title}`} width="640" height="480" fetchpriority="high" />
+          <figcaption>{hero.data.number}. vzdělávací, inspirativní a networkingové setkání Franchise Clubu</figcaption>
+        </figure>
+      )}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2>Jak přijít na klubový večer</h2>
+      <p class="lead" style="margin-bottom:32px">Večery začínají v 18:00 networkingem u občerstvení, pak následuje host a debata. Vezměte si vizitky.</p>
+      <Practical />
+    </div>
+  </section>
+
+  {later.length > 0 && (
+    <section class="section section--stone">
+      <div class="wrap">
+        <h2>Další termíny</h2>
+        <ul class="timeline">
+          {later.map((e) => <EventRow event={e} soon />)}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  <section class="section">
+    <div class="wrap cols-2">
+      <div>
+        <h2>Klub, kde se franchising potkává osobně</h2>
+        <p>Franchise Club sdružuje kolem stovky stálých členů – majitele a vrcholové manažery franšízových sítí, budoucí franšízanty i dodavatele služeb, bez kterých se síťové podnikání neobejde. Členy jsou konkrétní lidé, ne firmy.</p>
+        <p>Od roku 2006 jsme uspořádali {totalEvenings} klubových večerů a desítky exkurzí. Vystoupili u nás zakladatelé Zásilkovny, Bernardu, Fruitisima, šéfové KFC, Starbucks, Burger King i Lidlu.</p>
+        <div class="btn-row" style="margin-top:24px">
+          <a class="btn btn--dark" href={href('klub/')}>Jak funguje členství</a>
+          <a class="btn btn--ghost" style="color:var(--petrol)" href={href('klub/#archiv')}>Všichni hosté od roku 2006</a>
+        </div>
+      </div>
+      <div class="box" style="background:var(--stone);border:0">
+        <h3>Pro členy: Villa Dallmayr Eva v Toskánsku</h3>
+        <p>Celoroční nabídka pro členy klubu na dovolenou nebo teambuilding.</p>
+        <p><a href="https://www.villadaeva.it">villadaeva.it</a></p>
+        <img src={img('villa-da-eva.jpg')} alt="Villa Dallmayr Eva v Toskánsku" loading="lazy" style="border-radius:4px;margin-top:8px" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--stone">
+    <div class="wrap">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:28px">
+        <h2 style="margin:0">Proběhlo</h2>
+        <a class="ui" href={href('akce/')}>Všechny akce</a>
+      </div>
+      <div class="grid-past">
+        {recent.map((e) => <PastCard event={e} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2>Patroni a partneři klubu</h2>
+      <p class="muted" style="margin-bottom:32px">Večery hostí Magenta Experience Center. <a href={href('partneri/')}>Přehled partnerů</a></p>
+      <div class="logos">
+        {logos.map((p) => (
+          <a href={p.url.startsWith('/') ? href(p.url) : p.url} title={p.name}>
+            <img src={img(p.logo)} alt={p.name} loading="lazy" />
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
