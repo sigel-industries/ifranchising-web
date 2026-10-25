@@ -60,8 +60,8 @@ const office = contact.people[1];
           <a class="hide-sm" href={`tel:${office.phone.replace(/\s/g, '')}`}>{office.phone}</a>
           <a href={`mailto:${office.email}`}>{office.email}</a>
           <span class="flags">
-            <a href={home} title="česky"><img src={img('czech-flag.gif')} alt="česky" /></a>
-            <a href="http://www.ifranchise.cz" hreflang="en" lang="en" title="English"><img src={img('english-flag.gif')} alt="English" /></a>
+            <a href={home} title="česky"><img src={img('czech-flag.gif')} alt="česky" width="18" height="12" /></a>
+            <a href="http://www.ifranchise.cz" hreflang="en" lang="en" title="English"><img src={img('english-flag.gif')} alt="English" width="18" height="12" /></a>
           </span>
         </span>
       </div>
@@ -70,7 +70,7 @@ const office = contact.people[1];
     <header class="site-header">
       <div class="container">
         <a class="logo" href={home}>
-          <img src={img('cesky-institut-franchisingu.gif')} alt="" />
+          <img src={img('cesky-institut-franchisingu.gif')} alt="" width="200" height="181" />
           <span class="wordmark"><b>Český institut pro franchising</b><small>a Franchise Club</small></span>
         </a>
         <button class="nav-toggle" aria-expanded="false" aria-controls="hlavni-menu">Menu</button>

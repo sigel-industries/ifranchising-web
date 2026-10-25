@@ -15,7 +15,7 @@ const next = upcoming[0];
   <section class="banner-band" aria-label="Poznat, pochopit, použít">
     <div class="container banner-grid">
       <div>
-      <p class="banner-slogan">Poznat, pochopit, použít&nbsp;…</p>
+      <h1 class="banner-slogan">Poznat, pochopit, použít&nbsp;…</h1>
       <p class="banner-sub">Franchise Club – klub pro dialog, spolupráci a růst (nejen) ve franchisingu od roku 2006</p>
       {next && (
         <a class="banner-next" href={href(`akce/${next.id}/`)}>
@@ -36,7 +36,7 @@ const next = upcoming[0];
 
   <div class="container home-cols">
     <section class="col" aria-labelledby="pripravujeme">
-      <h1 id="pripravujeme" class="col-title">připravujeme</h1>
+      <h2 id="pripravujeme" class="col-title">připravujeme</h2>
       <img class="club-logo" src={img('franchiseclub330x132.gif')} alt="Franchise Club – klub pro dialog a spolupráci ve franchisingu" width="330" height="132" />
 
       {upcoming.length === 0 && <p>Program další sezóny brzy zveřejníme.</p>}
@@ -95,7 +95,7 @@ const next = upcoming[0];
     </section>
 
     <section class="col col--past" aria-labelledby="probehlo">
-      <h1 id="probehlo" class="col-title">proběhlo</h1>
+      <h2 id="probehlo" class="col-title">proběhlo</h2>
       {recent.map((e) => <EventBlock event={e} />)}
       <p class="ev-more" style="margin-top:8px"><a class="btn btn--dark" href={href('akce/')}>Všechny proběhlé akce</a></p>
     </section>
