@@ -370,3 +370,68 @@ details.qa p { padding-bottom: 10px; }
 .ev-more { margin: 12px 0 0; font-size: var(--fs-1); }
 .ev h2 { font-size: var(--fs-4); }
 .home-cols .facts { grid-template-columns: 1fr; }
+
+/* ===== UI/UX vylepšení ===== */
+/* hlavička: název vedle loga */
+.logo .wordmark { display: flex; flex-direction: column; line-height: 1.15; color: #fff; }
+.logo .wordmark b { font-size: 1.05rem; font-weight: 800; letter-spacing: -0.01em; }
+.logo .wordmark small { font-size: var(--fs-0); color: #b9c3e3; font-weight: 500; }
+.logo:hover .wordmark { color: #fff; }
+@media (max-width: 1240px) { .logo .wordmark { display: none; } }
+@media (max-width: 1060px) { .logo .wordmark { display: flex; } }
+@media (max-width: 420px) { .logo .wordmark b { font-size: .92rem; } .logo .wordmark small { display: none; } }
+
+/* banner: příští setkání */
+.banner-next {
+  display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin-top: 18px;
+  background: rgb(255 255 255 / .14); border: 1px solid rgb(255 255 255 / .35); color: #fff;
+  padding: 10px 16px; border-radius: 10px; font-weight: 500; max-width: 100%;
+}
+.banner-next:hover { background: rgb(255 255 255 / .22); color: #fff; text-decoration: none; }
+.bn-label { background: var(--brand); color: #fff; font-size: var(--fs-0); font-weight: 700; padding: 3px 9px; border-radius: 999px; }
+.bn-date { font-weight: 700; }
+.bn-title { font-weight: 600; }
+
+/* hierarchie akce: číslo výrazně, typ setkání tlumeně */
+.ev-label .ev-num { font-size: 1.35em; font-weight: 800; color: var(--brand); margin-right: 2px; }
+.ev-label .ev-kind { font-weight: 600; color: var(--muted); font-size: var(--fs-1); }
+.ev-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; margin-top: 12px; }
+.ev-actions .ev-more { margin: 0; }
+.ev-cta { display: flex; gap: 8px; flex-wrap: wrap; margin: 0; }
+.btn--sm { padding: .65em 1em; font-size: var(--fs-0); }
+
+/* mobilní sbalovací bloky */
+details.m-collapse > summary { list-style: none; cursor: pointer; position: relative; }
+details.m-collapse > summary::-webkit-details-marker { display: none; }
+details.m-collapse > summary h2 { display: inline; }
+@media (min-width: 901px) { details.m-collapse > summary { pointer-events: none; } }
+@media (max-width: 900px) {
+  details.m-collapse > summary { padding-right: 36px; }
+  details.m-collapse > summary::after { content: '+'; position: absolute; right: 4px; top: 0; font-size: 1.6rem; font-weight: 700; color: var(--orange); line-height: 1.2; }
+  details.m-collapse[open] > summary::after { content: '−'; }
+  details.m-collapse > summary h2 { font-size: var(--fs-3); }
+}
+
+/* detail akce */
+.detail-title { color: var(--orange-ink); margin-top: 6px; }
+.detail { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: clamp(28px, 4vw, 56px); align-items: start; }
+.detail-invite { width: 100%; max-width: 560px; height: auto; border-radius: 6px; border: 1px solid var(--line-soft); box-shadow: 0 10px 30px rgb(16 41 107 / .12); margin-bottom: 20px; }
+.detail-side .map { aspect-ratio: 4/3; border-radius: 12px; overflow: hidden; border: 1px solid var(--line-soft); background: var(--soft); margin-bottom: 12px; }
+.detail-side iframe { width: 100%; height: 100%; border: 0; display: block; }
+.share { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin-top: 28px; padding-top: 16px; border-top: 1px solid var(--line-soft); font-size: var(--fs-1); }
+.share button { font: 600 var(--fs-1) var(--font); color: var(--orange-ink); background: none; border: 0; padding: 0; cursor: pointer; }
+.share button:hover { color: var(--orange); text-decoration: underline; }
+.more-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 32px; }
+.more-grid .ev { border-top: 1px solid var(--line-soft); padding-top: 20px; }
+@media (max-width: 960px) { .detail { grid-template-columns: 1fr; } .more-grid { grid-template-columns: 1fr; } }
+
+/* hledání v archivu */
+.archive-search { margin: 20px 0 8px; max-width: 520px; }
+.archive-search label { display: block; font-weight: 700; font-size: var(--fs-1); margin-bottom: 6px; color: var(--brand); }
+.archive-search input { width: 100%; font: var(--fs-2) var(--font); padding: 12px 14px; border: 1.5px solid var(--line); border-radius: 10px; }
+.archive-search input:focus { border-color: var(--brand); outline: 3px solid rgb(16 41 107 / .15); }
+.archive-search p { margin: 8px 0 0; font-size: var(--fs-1); min-height: 1.4em; }
+
+/* sjednocená loga partnerů */
+.partners-strip a { width: 132px; height: 72px; padding: 10px 14px; }
+.partners-strip img { max-width: 100%; max-height: 46px; }

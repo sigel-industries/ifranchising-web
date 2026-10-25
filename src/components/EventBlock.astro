@@ -1,24 +1,36 @@
 ---
 // Akce v původním formátu z ifranchising.cz:
 // ► číslo a typ setkání / datum, čas, místo / název / pozvánka / odkaz na e-pozvánku
-import { href, img, fmtLong, type ClubEvent } from '../lib/util';
+import { href, img, fmtLong, isoDate, todayISO, type ClubEvent } from '../lib/util';
+import { contact } from '../data/site';
 interface Props { event: ClubEvent }
 const { event: e } = Astro.props;
 const d = e.data;
-const label =
+const kind =
   d.kind === 'vecer'
-    ? `${d.number}. vzdělávací, inspirativní a networkingové setkání Franchise Clubu`
-    : `${d.number}. exkurze Franchise Clubu na zajímavá a exkluzivní místa`;
+    ? 'vzdělávací, inspirativní a networkingové setkání Franchise Clubu'
+    : 'exkurze Franchise Clubu na zajímavá a exkluzivní místa';
 const detail = href(`akce/${e.id}/`);
+const upcoming = isoDate(d.date) >= todayISO();
+const office = contact.people[1].email;
+const mail = `mailto:${office}?subject=${encodeURIComponent(`Zájem o účast: ${d.number}. setkání – ${d.title}`)}&body=${encodeURIComponent('Dobrý den,\n\nrád/a bych přišel/přišla na setkání.\n\nJméno:\nFirma:\nTelefon:\nPočet osob:\n')}`;
 ---
 <article class="ev">
-  <p class="ev-label">{label}</p>
+  <p class="ev-label"><span class="ev-num">{d.number}.</span> <span class="ev-kind">{kind}</span></p>
   <p class="ev-when">{fmtLong(d.date)}, {d.start} – {d.end} v {d.venue}</p>
   <h3 class="ev-title"><a href={detail}>{d.title}</a></h3>
   {d.image && (
     <a class="ev-img" href={detail}><img src={img(d.image)} alt={`Pozvánka: ${d.title}`} loading="lazy" width="385" height="203" /></a>
   )}
-  {d.invite
-    ? <p class="ev-more"><a href={d.invite}>Další informace v e-pozvánce</a> »</p>
-    : <p class="ev-more"><a href={detail}>Více o setkání</a> »</p>}
+  <div class="ev-actions">
+    {d.invite
+      ? <p class="ev-more"><a href={d.invite}>Další informace v e-pozvánce</a> »</p>
+      : <p class="ev-more"><a href={detail}>Více o setkání</a> »</p>}
+    {upcoming && (
+      <p class="ev-cta">
+        <a class="btn btn--primary btn--sm" href={mail}>Mám zájem přijít</a>
+        <a class="btn btn--ghost btn--sm" href={href(`akce/${e.id}.ics`)} download>Do kalendáře</a>
+      </p>
+    )}
+  </div>
 </article>

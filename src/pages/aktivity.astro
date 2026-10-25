@@ -84,7 +84,40 @@ const international: [string, string, string][] = [
     <div class="wrap">
       <h2>Hosté klubu od roku 2006</h2>
       <p class="lead">Dvacet sezón, přes 180 večerů. Novější večery s pozvánkami najdete v <a href={href('akce/')}>přehledu akcí</a>.</p>
-      <div class="archive"><Archiv /></div>
+      <div class="archive-search">
+        <label for="archiv-hledat">Hledat hosta, značku nebo téma</label>
+        <input id="archiv-hledat" type="search" placeholder="např. KFC, Zlámalová, AI…" autocomplete="off" />
+        <p class="muted" id="archiv-pocet" aria-live="polite"></p>
+      </div>
+      <div class="archive" id="archiv-obsah"><Archiv /></div>
+      <script>
+        const input = document.getElementById('archiv-hledat') as HTMLInputElement;
+        const box = document.getElementById('archiv-obsah')!;
+        const count = document.getElementById('archiv-pocet')!;
+        const norm = (t: string) => t.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+        // seskupit: každý nadpis sezóny + položky pod ním
+        const groups: { h: HTMLElement; items: HTMLElement[] }[] = [];
+        box.querySelectorAll<HTMLElement>(':scope > *').forEach((el) => {
+          if (el.tagName === 'H2') groups.push({ h: el, items: [] });
+          else if (groups.length) {
+            if (el.tagName === 'UL') el.querySelectorAll<HTMLElement>('li').forEach((li) => groups.at(-1)!.items.push(li));
+            else groups.at(-1)!.items.push(el);
+          }
+        });
+        input.addEventListener('input', () => {
+          const q = norm(input.value.trim());
+          let n = 0;
+          groups.forEach((g) => {
+            let any = false;
+            g.items.forEach((it) => {
+              const hit = !q || norm(it.textContent || '').includes(q);
+              it.hidden = !hit; if (hit) { any = true; if (q) n++; }
+            });
+            g.h.hidden = !any;
+          });
+          count.textContent = q ? (n ? `Nalezeno: ${n}` : 'Nic nenalezeno. Zkuste jiné jméno nebo značku.') : '';
+        });
+      </script>
     </div>
   </section>
 

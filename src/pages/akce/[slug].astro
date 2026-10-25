@@ -2,7 +2,9 @@
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import Practical from '../../components/Practical.astro';
+import EventBlock from '../../components/EventBlock.astro';
 import { href, img, fmtLong, isoDate, todayISO, label } from '../../lib/util';
+import { contact, practical } from '../../data/site';
 
 export async function getStaticPaths() {
   const events = await getCollection('events');
@@ -12,37 +14,100 @@ export async function getStaticPaths() {
 const { event: e } = Astro.props;
 const d = e.data;
 const { Content } = await render(e);
-const isUpcoming = isoDate(d.date) >= todayISO();
+const today = todayISO();
+const isUpcoming = isoDate(d.date) >= today;
 const isMec = d.venue.includes('Magenta');
+const kind =
+  d.kind === 'vecer'
+    ? 'vzdělávací, inspirativní a networkingové setkání Franchise Clubu'
+    : 'exkurze Franchise Clubu na zajímavá a exkluzivní místa';
+
+// další akce: nejbližší nadcházející + poslední proběhlé (bez této)
+const all = (await getCollection('events')).filter((x) => x.id !== e.id);
+const nextUp = all.filter((x) => isoDate(x.data.date) >= today).sort((a, b) => +a.data.date - +b.data.date).slice(0, 1);
+const lastPast = all.filter((x) => isoDate(x.data.date) < today).sort((a, b) => +b.data.date - +a.data.date).slice(0, 3 - nextUp.length);
+const more = [...nextUp, ...lastPast];
+
+const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
+const mapQuery = isMec ? 'OC Arkády Pankrác, Na Pankráci 86, Praha 4' : d.venue;
+const mapSrc = `https://maps.google.com/maps?q=${encodeURIComponent(mapQuery)}&z=15&output=embed`;
+const office = contact.people[1].email;
+const mail = `mailto:${office}?subject=${encodeURIComponent(`Zájem o účast: ${d.number}. setkání – ${d.title}`)}&body=${encodeURIComponent('Dobrý den,\n\nrád/a bych přišel/přišla na setkání.\n\nJméno:\nFirma:\nTelefon:\nPočet osob:\n')}`;
+
+// posun Europe/Prague pro daný den (CET +01:00 / CEST +02:00)
+const tzOffset = (() => {
+  const part = new Intl.DateTimeFormat('en-US', { timeZone: 'Europe/Prague', timeZoneName: 'longOffset' })
+    .formatToParts(new Date(`${isoDate(d.date)}T12:00:00Z`)).find((x) => x.type === 'timeZoneName')?.value ?? 'GMT+01:00';
+  return part.replace('GMT', '') || '+00:00';
+})();
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: `${d.title} – ${d.number}. ${d.kind === 'vecer' ? 'setkání' : 'exkurze'} Franchise Clubu`,
+  startDate: `${isoDate(d.date)}T${d.start}:00${tzOffset}`,
+  endDate: `${isoDate(d.date)}T${d.end}:00${tzOffset}`,
+  eventStatus: 'https://schema.org/EventScheduled',
+  eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+  location: {
+    '@type': 'Place',
+    name: d.venue,
+    address: isMec ? 'Na Pankráci 86, 140 00 Praha 4' : d.venue,
+  },
+  image: d.image ? [new URL(img(d.image), Astro.site).toString()] : undefined,
+  description: `${d.number}. ${kind}.${d.speakers ? ` Host: ${d.speakers}.` : ''}`,
+  organizer: { '@type': 'Organization', name: 'Český institut pro franchising', url: new URL(href(), Astro.site).toString() },
+  ...(isMec && {
+    offers: [
+      { '@type': 'Offer', name: 'Nečlenové', price: '900', priceCurrency: 'CZK', availability: 'https://schema.org/InStock', url: pageUrl },
+      { '@type': 'Offer', name: 'Studenti a učitelé', price: '300', priceCurrency: 'CZK', availability: 'https://schema.org/InStock', url: pageUrl },
+    ],
+  }),
+  ...(d.speakers && { performer: { '@type': 'Person', name: d.speakers.split(',')[0] } }),
+};
 ---
-<Base title={d.title} description={`${label(e)} – ${fmtLong(d.date)}, ${d.venue}`} image={d.image ? img(d.image) : undefined}>
-  <section class="section">
+<Base title={d.title} description={`${label(e)} – ${fmtLong(d.date)}, ${d.venue}`} image={d.image ? new URL(img(d.image), Astro.site).toString() : undefined}>
+  <section class="page-head">
     <div class="wrap">
       <nav class="crumbs" aria-label="Drobečková navigace"><a href={href()}>aktuality</a> / <a href={href('akce/')}>akce</a></nav>
-      <div class="event" style="border:0;padding-top:0">
-        <div>
-          <p class="event-label">
-            {d.kind === 'vecer'
-              ? `${d.number}. vzdělávací, inspirativní a networkingové setkání Franchise Clubu`
-              : `${d.number}. exkurze Franchise Clubu`}
-            {!isUpcoming && <span class="tag" style="margin-left:8px">proběhlo</span>}
-          </p>
-          <p class="event-when">{fmtLong(d.date)}, {d.start}–{d.end}, {d.venue}</p>
-          <h1 style="color:var(--orange)">{d.title}</h1>
-          {d.speakers && <p><strong>Host:</strong> {d.speakers}</p>}
-          <div class="prose"><Content /></div>
-          <div class="btn-row">
-            {isUpcoming && <a class="btn btn--primary" href={href(`akce/${e.id}.ics`)} download>Přidat do kalendáře</a>}
-            {d.invite && <a class="btn btn--ghost" href={d.invite}>Další informace v e-pozvánce</a>}
-          </div>
+      <p class="ev-label"><span class="ev-num">{d.number}.</span> <span class="ev-kind">{kind}</span>{!isUpcoming && <span class="tag" style="margin-left:8px">proběhlo</span>}</p>
+      <h1 class="detail-title">{d.title}</h1>
+      <p class="lead" style="color:var(--dark)">{fmtLong(d.date)}, {d.start} – {d.end} v {d.venue}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap detail">
+      <div class="detail-main">
+        {d.image && <img class="detail-invite" src={img(d.image)} alt={`Pozvánka: ${d.title}`} width="385" height="203" />}
+        {d.speakers && <p><strong>Host:</strong> {d.speakers}</p>}
+        <div class="prose"><Content /></div>
+        <div class="btn-row" style="margin-top:20px">
+          {isUpcoming && <a class="btn btn--primary" href={mail}>Mám zájem přijít</a>}
+          {isUpcoming && <a class="btn btn--ghost" href={href(`akce/${e.id}.ics`)} download>Přidat do kalendáře</a>}
+          {d.invite && <a class="btn btn--ghost" href={d.invite}>Další informace v e-pozvánce</a>}
         </div>
-        {d.image && <figure style="margin:0"><img src={img(d.image)} alt={d.title} width="385" height="203" /></figure>}
+        {isUpcoming && isMec && <p class="muted" style="font-size:var(--fs-1);margin-top:14px">Vstupenku koupíte u vstupu v hotovosti nebo QR kódem. Členové a jejich hosté vstupné neplatí.</p>}
+
+        <div class="share">
+          <span class="muted">Sdílet:</span>
+          <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(pageUrl)}`} target="_blank" rel="noopener">LinkedIn</a>
+          <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`} target="_blank" rel="noopener">Facebook</a>
+          <button type="button" class="copy-link" data-url={pageUrl}>Kopírovat odkaz</button>
+        </div>
       </div>
+
+      <aside class="detail-side">
+        <div class="map">
+          <iframe src={mapSrc} title={`Mapa: ${mapQuery}`} loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+        <p style="font-size:var(--fs-1)"><strong>{d.venue}</strong>{isMec && <><br />v přízemí, Na Pankráci 86, Praha 4</>}</p>
+        <p><a href={isMec ? practical.mapUrl : `https://maps.google.com/?q=${encodeURIComponent(mapQuery)}`}>Navigovat</a></p>
+      </aside>
     </div>
   </section>
 
   {isUpcoming && isMec && (
-    <section class="section">
+    <section class="section section--stone">
       <div class="wrap">
         <h2>Praktické informace</h2>
         <Practical />
@@ -50,7 +115,27 @@ const isMec = d.venue.includes('Magenta');
     </section>
   )}
 
-  <section class="section">
-    <div class="wrap"><a href={href('akce/')}>« zpět na všechny akce</a></div>
-  </section>
+  {more.length > 0 && (
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Další setkání</h2>
+          <a href={href('akce/')}>Všechny akce</a>
+        </div>
+        <div class="more-grid">
+          {more.map((x) => <EventBlock event={x} />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  <script>
+    document.querySelectorAll<HTMLButtonElement>('.copy-link').forEach((b) =>
+      b.addEventListener('click', async () => {
+        try { await navigator.clipboard.writeText(b.dataset.url!); b.textContent = 'Odkaz zkopírován'; }
+        catch { b.textContent = b.dataset.url!; }
+      }),
+    );
+  </script>
 </Base>
