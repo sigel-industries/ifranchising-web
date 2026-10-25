@@ -1,5 +1,7 @@
 ---
 import '../styles/global.css';
+import Mark from '../components/Mark.astro';
+import Marks from '../components/Marks.astro';
 import { href, img } from '../lib/util';
 import { nav, contact, patrons, productPartners, expertPartners, type Partner } from '../data/site';
 
@@ -70,7 +72,7 @@ const office = contact.people[1];
     <header class="site-header">
       <div class="container">
         <a class="logo" href={home}>
-          <img src={img('cesky-institut-franchisingu.gif')} alt="" width="200" height="181" />
+          <Mark class="logo-mark" />
           <span class="wordmark"><b>Český institut pro franchising</b><small>a Franchise Club</small></span>
         </a>
         <button class="nav-toggle" aria-expanded="false" aria-controls="hlavni-menu">Menu</button>
@@ -102,6 +104,7 @@ const office = contact.people[1];
     </section>
 
     <footer class="site-footer">
+      <Marks variant="footer" />
       <div class="container">
         <div class="footer-grid">
           <div>

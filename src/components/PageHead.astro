@@ -1,9 +1,11 @@
 ---
 import { href } from '../lib/util';
+import Marks from './Marks.astro';
 interface Props { title: string; lead?: string; crumbs?: [string, string][] }
 const { title, lead, crumbs = [] } = Astro.props;
 ---
 <section class="page-head">
+  <Marks variant="head" />
   <div class="wrap">
     {crumbs.length > 0 && (
       <nav class="crumbs" aria-label="Drobečková navigace">

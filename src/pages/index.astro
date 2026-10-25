@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Practical from '../components/Practical.astro';
 import EventBlock from '../components/EventBlock.astro';
+import Marks from '../components/Marks.astro';
 import { getEvents, href, img, fmtShort, fmtLong } from '../lib/util';
 import { contact, patrons } from '../data/site';
 
@@ -13,6 +14,7 @@ const next = upcoming[0];
 ---
 <Base title="home">
   <section class="banner-band" aria-label="Poznat, pochopit, použít">
+    <Marks variant="banner" />
     <div class="container banner-grid">
       <div>
       <h1 class="banner-slogan">Poznat, pochopit, použít&nbsp;…</h1>

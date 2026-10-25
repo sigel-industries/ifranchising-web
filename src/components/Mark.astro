@@ -1,0 +1,22 @@
+---
+// Značka ČIFRA („f“ ve čtverci) překreslená do vektoru podle původního loga.
+// Barva přes currentColor, velikost přes CSS (width/height) nebo prop size.
+interface Props { size?: number | string; class?: string; title?: string; style?: string }
+const { size, class: cls, title, style } = Astro.props;
+---
+<svg
+  class={cls}
+  style={style}
+  width={size}
+  height={size}
+  viewBox="0 0 240 240"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="18"
+  role={title ? 'img' : undefined}
+  aria-hidden={title ? undefined : 'true'}
+  aria-label={title}
+>
+  <rect x="9" y="9" width="222" height="222" rx="34" />
+  <path d="M152 9V153H92M92 231V91H152" stroke-linejoin="miter" stroke-linecap="butt" />
+</svg>

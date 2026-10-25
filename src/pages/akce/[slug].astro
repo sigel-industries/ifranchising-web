@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import Practical from '../../components/Practical.astro';
 import EventBlock from '../../components/EventBlock.astro';
+import Marks from '../../components/Marks.astro';
 import { href, img, fmtLong, isoDate, todayISO, label } from '../../lib/util';
 import { contact, practical } from '../../data/site';
 
@@ -67,11 +68,12 @@ const jsonLd = {
 ---
 <Base title={d.title} description={`${label(e)} – ${fmtLong(d.date)}, ${d.venue}`} image={d.image ? new URL(img(d.image), Astro.site).toString() : undefined}>
   <section class="page-head">
+    <Marks variant="head" />
     <div class="wrap">
       <nav class="crumbs" aria-label="Drobečková navigace"><a href={href()}>aktuality</a> / <a href={href('akce/')}>akce</a></nav>
       <p class="ev-label"><span class="ev-num">{d.number}.</span> <span class="ev-kind">{kind}</span>{!isUpcoming && <span class="tag" style="margin-left:8px">proběhlo</span>}</p>
       <h1 class="detail-title">{d.title}</h1>
-      <p class="lead" style="color:var(--dark)">{fmtLong(d.date)}, {d.start} – {d.end} v {d.venue}</p>
+      <p class="lead">{fmtLong(d.date)}, {d.start} – {d.end} v {d.venue}</p>
     </div>
   </section>
 

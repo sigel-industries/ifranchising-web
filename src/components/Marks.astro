@@ -1,0 +1,14 @@
+---
+// Kompozice značek jako na původním banneru (top-banner.gif):
+// malé plné, střední průsvitné, velká oříznutá vpravo.
+import Mark from './Mark.astro';
+interface Props { variant?: 'banner' | 'head' | 'footer' }
+const { variant = 'banner' } = Astro.props;
+---
+<div class={`marks marks--${variant}`} aria-hidden="true">
+  <Mark class="m m1" />
+  <Mark class="m m2" />
+  <Mark class="m m3" />
+  <Mark class="m m4" />
+  <Mark class="m m5" />
+</div>
