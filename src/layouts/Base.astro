@@ -20,6 +20,8 @@ const home = href();
 const isCurrent = (p: string) => (p === '' ? path === home || path.startsWith(href('akce/')) : path.startsWith(href(p)));
 const link = (p: Partner) => (p.url.startsWith('/') ? href(p.url) : p.url);
 const year = new Date().getFullYear();
+// Pracovní verze (GitHub Pages): neindexovat, aby nekonkurovala ostrému webu.
+const isPreview = import.meta.env.PUBLIC_PREVIEW === 'true';
 const groups: [string, Partner[]][] = [
   ['Patron klubu', patrons],
   ['Produktoví partneři', productPartners],
@@ -35,6 +37,7 @@ const office = contact.people[1];
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <meta name="author" content="RNDr. Jaroslav Tamchyna" />
+    {isPreview && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonical} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />

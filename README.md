@@ -82,6 +82,8 @@ Dnešní kód je na obě varianty připravený: obsah je oddělený od šablon a
 
 ## Před spuštěním na ostré doméně
 
+- Nastavit v repu proměnnou `PRODUCTION=true` (Settings → Secrets and variables → Actions → Variables). Bez ní je web pracovní verze: `noindex` a `robots.txt` s `Disallow: /`.
+
 - Staré adresy (`aktivity.php`, `kontakt.php`…) přesměrovat 301 na nové – na Pages to nejde, na hostingu ano.
 - Ověřit téma 187. večera (viz `todo` ve frontmatteru).
 - Přenést stránku „Zásady ochrany osobních údajů“ (zatím odkaz na starý web).
