@@ -7,7 +7,7 @@ const { title, lead, crumbs = [] } = Astro.props;
   <div class="wrap">
     {crumbs.length > 0 && (
       <nav class="crumbs" aria-label="Drobečková navigace">
-        <a href={href()}>Úvod</a>
+        <a href={href()}>aktuality</a>
         {crumbs.map(([p, l]) => <> / <a href={href(p)}>{l}</a></>)}
       </nav>
     )}

@@ -9,7 +9,7 @@ const { upcoming, past } = await getEvents();
 const years = [...new Set(past.map((e) => e.data.date.getUTCFullYear()))];
 ---
 <Base title="Akce" description="Klubové večery a exkurze Franchise Clubu – program a archiv.">
-  <PageHead title="Klubové večery a exkurze" lead="Jednou měsíčně debata s osobností, která formuje české franšízové a síťové podnikání. Několikrát ročně exkurze tam, kam se běžně nedostanete." />
+  <PageHead title="klubové večery a exkurze" lead="Jednou měsíčně debata s osobností, která formuje české franšízové a síťové podnikání. Několikrát ročně exkurze tam, kam se běžně nedostanete." />
 
   <section class="section">
     <div class="wrap">
@@ -36,7 +36,7 @@ const years = [...new Set(past.map((e) => e.data.date.getUTCFullYear()))];
           </div>
         </div>
       ))}
-      <p class="muted">Starší hosté od roku 2006 jsou v <a href={href('klub/#archiv')}>archivu klubu</a>.</p>
+      <p class="muted">Starší hosté od roku 2006 jsou v <a href={href('aktivity/#archiv')}>archivu klubu</a>.</p>
     </div>
   </section>
 

@@ -68,13 +68,14 @@ export const expertPartners: Partner[] = [
   { name: 'Ipsos', url: 'https://www.ipsos.cz/', logo: 'logo-ipsos-sidebar.jpg', text: 'Přední agentura výzkumu trhu a veřejného mínění, působící v 88 zemích.' },
 ];
 
+// Stejné položky a pořadí jako na původním webu.
 export const nav = [
-  ['akce/', 'Akce'],
-  ['klub/', 'Klub'],
-  ['franchising/', 'Franchising'],
-  ['poradenstvi/', 'Poradenství'],
-  ['o-nas/', 'O nás'],
-  ['partneri/', 'Partneři'],
+  ['', 'aktuality'],
+  ['o-nas/', 'o nás'],
+  ['franchising/', 'franchising'],
+  ['aktivity/', 'aktivity'],
+  ['poradenstvi/', 'poradenství'],
+  ['partneri/', 'partneři'],
   ['faq/', 'FAQ'],
-  ['kontakt/', 'Kontakt'],
+  ['kontakt/', 'kontakt'],
 ] as const;

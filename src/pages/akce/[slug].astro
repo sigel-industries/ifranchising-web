@@ -16,41 +16,41 @@ const isUpcoming = isoDate(d.date) >= todayISO();
 const isMec = d.venue.includes('Magenta');
 ---
 <Base title={d.title} description={`${label(e)} – ${fmtLong(d.date)}, ${d.venue}`} image={d.image ? img(d.image) : undefined}>
-  <section class="hero">
+  <section class="section">
     <div class="wrap">
-      <div>
-        <nav class="crumbs" aria-label="Drobečková navigace"><a href={href()}>Úvod</a> / <a href={href('akce/')}>Akce</a></nav>
-        <p class="hero-kicker">{label(e)}{isUpcoming ? '' : ' – proběhlo'}</p>
-        <p class="ordinal" aria-hidden="true">{d.number}.</p>
-        <h1>{d.title}</h1>
-        <dl class="when">
-          <dt>Kdy</dt><dd>{fmtLong(d.date)}, {d.start}–{d.end}</dd>
-          <dt>Kde</dt><dd>{d.venue}</dd>
-          {d.speakers && <><dt>Host</dt><dd>{d.speakers}</dd></>}
-        </dl>
-        <div class="btn-row">
-          {isUpcoming && <a class="btn btn--primary" href={href(`akce/${e.id}.ics`)} download>Přidat do kalendáře</a>}
-          {d.invite && <a class="btn btn--ghost" href={d.invite}>E-pozvánka</a>}
+      <nav class="crumbs" aria-label="Drobečková navigace"><a href={href()}>aktuality</a> / <a href={href('akce/')}>akce</a></nav>
+      <div class="event" style="border:0;padding-top:0">
+        <div>
+          <p class="event-label">
+            {d.kind === 'vecer'
+              ? `${d.number}. vzdělávací, inspirativní a networkingové setkání Franchise Clubu`
+              : `${d.number}. exkurze Franchise Clubu`}
+            {!isUpcoming && <span class="tag" style="margin-left:8px">proběhlo</span>}
+          </p>
+          <p class="event-when">{fmtLong(d.date)}, {d.start}–{d.end}, {d.venue}</p>
+          <h1 style="color:var(--orange)">{d.title}</h1>
+          {d.speakers && <p><strong>Host:</strong> {d.speakers}</p>}
+          <div class="prose"><Content /></div>
+          <div class="btn-row">
+            {isUpcoming && <a class="btn btn--primary" href={href(`akce/${e.id}.ics`)} download>Přidat do kalendáře</a>}
+            {d.invite && <a class="btn btn--ghost" href={d.invite}>Další informace v e-pozvánce</a>}
+          </div>
         </div>
+        {d.image && <figure style="margin:0"><img src={img(d.image)} alt={d.title} width="300" height="225" /></figure>}
       </div>
-      {d.image && (
-        <figure class="hero-figure">
-          <img src={img(d.image)} alt={`Pozvánka: ${d.title}`} width="640" height="480" />
-        </figure>
-      )}
     </div>
   </section>
 
+  {isUpcoming && isMec && (
+    <section class="section">
+      <div class="wrap">
+        <h2>Praktické informace</h2>
+        <Practical />
+      </div>
+    </section>
+  )}
+
   <section class="section">
-    <div class="wrap prose">
-      <Content />
-      {isUpcoming && isMec && (
-        <>
-          <h2>Praktické informace</h2>
-          <Practical />
-        </>
-      )}
-      <p style="margin-top:40px"><a class="ui" href={href('akce/')}>Zpět na všechny akce</a></p>
-    </div>
+    <div class="wrap"><a href={href('akce/')}>« zpět na všechny akce</a></div>
   </section>
 </Base>

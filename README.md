@@ -1,6 +1,6 @@
 # Franchise Club / ČIFRA – nový web
 
-Redesign www.ifranchising.cz postavený na [Astro 5](https://astro.build). Statický výstup, nasazení na GitHub Pages, později bez přepisování rozšiřitelný o členskou zónu.
+Modernizace www.ifranchising.cz – původní barvy, logo, menu a rozložení, nové responzivní provedení. Postaveno na [Astro 5](https://astro.build), statický výstup na GitHub Pages.
 
 ## Lokálně
 
