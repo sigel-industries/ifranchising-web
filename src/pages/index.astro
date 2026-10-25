@@ -6,7 +6,7 @@ import { getEvents, href, img, fmtLong, fmtShort } from '../lib/util';
 import { contact } from '../data/site';
 
 // Struktura jako na původní úvodní stránce:
-// připravujeme → termíny → pozvánka → praktické informace → kontakty → proběhlo
+// příští večer → pozvánka a termíny → proběhlo → praktické informace → kontakty
 const { upcoming, past } = await getEvents();
 const recent = past.slice(0, 9);
 const next = upcoming[0];
@@ -40,53 +40,43 @@ const longName = (n: number, kind: string) =>
   )}
 
   <section class="section">
-    <div class="wrap">
+    <div class="wrap cols-2 intro">
+      <div>
+        <h2>Otevíráme hlavy, okysličujeme mozky!</h2>
+        <p>Těšíme se na vás a na společně strávený večer. Bude vás to bavit, a ještě se něco dozvíte a potkáte se s novými a zajímavými lidmi.</p>
+        <p class="signature">Za tým Franchise Clubu<br /><strong>Jaroslav Tamchyna, prezident Franchise Clubu</strong></p>
+        <p>Pokud máte nějaké další otázky nebo potřebujete více informací, neváhejte se na mě obrátit.</p>
 
-      {upcoming.length === 0 && <p>Program další sezóny brzy zveřejníme.</p>}
-      {upcoming.slice(1).map((e) => (
-        <article class="event">
-          <div>
-            <p class="event-label">{longName(e.data.number, e.data.kind)}</p>
-            <p class="event-when">{fmtLong(e.data.date)}, {e.data.start}–{e.data.end}, {e.data.venue}</p>
-            <h2>{e.data.title}</h2>
-            {e.data.speakers && <p>Host: {e.data.speakers}</p>}
-            <div class="btn-row">
-              <a class="btn btn--primary" href={href(`akce/${e.id}/`)}>Více o večeru</a>
-              {e.data.invite && <a class="btn btn--ghost" href={e.data.invite}>E-pozvánka</a>}
-              <a class="btn btn--ghost" href={href(`akce/${e.id}.ics`)} download>Do kalendáře</a>
-            </div>
+        {upcoming.length > 0 && (
+          <div class="dates">
+            <h3>Plánované termíny klubových setkání</h3>
+            <ul class="arrow">
+              {upcoming.map((e) => <li><a href={href(`akce/${e.id}/`)}>{fmtShort(e.data.date)}</a> – {e.data.title}</li>)}
+            </ul>
           </div>
-          {e.data.image && (
-            <figure style="margin:0"><img src={img(e.data.image)} alt={e.data.title} width="385" height="203" /></figure>
-          )}
-        </article>
-      ))}
+        )}
+        {upcoming.length === 0 && <p>Program další sezóny brzy zveřejníme.</p>}
+      </div>
 
-      <article class="event">
-        <div>
-          <p class="event-label">Nabídka členům klubu na dovolenou nebo teambuilding</p>
-          <p class="event-when">Celoročně ve Villa Dallmayr Eva v Toskánsku (<a href="https://www.villadaeva.it">www.villadaeva.it</a>)</p>
-        </div>
-        <figure style="margin:0"><img src={img('villa-da-eva.jpg')} alt="Villa Dallmayr Eva v Toskánsku" loading="lazy" width="385" height="203" /></figure>
-      </article>
-
-      {upcoming.length > 0 && (
-        <div style="border-top:1px solid var(--line);padding-top:18px">
-          <h3>Plánované termíny klubových setkání</h3>
-          <ul class="arrow">
-            {upcoming.map((e) => <li>{fmtShort(e.data.date)} – {e.data.title}</li>)}
-          </ul>
-        </div>
-      )}
+      <aside class="member-offer">
+        <p class="offer-label">Pro členy klubu</p>
+        <h3>Dovolená nebo teambuilding v Toskánsku</h3>
+        <p>Celoročně ve Villa Dallmayr Eva nedaleko Florencie.</p>
+        <a href="https://www.villadaeva.it"><img src={img('villa-da-eva.jpg')} alt="Villa Dallmayr Eva v Toskánsku" loading="lazy" width="385" height="203" /></a>
+        <p style="margin:12px 0 0"><a href="https://www.villadaeva.it">www.villadaeva.it</a></p>
+      </aside>
     </div>
   </section>
 
   <section class="section section--stone">
     <div class="wrap">
-      <h2>Otevíráme hlavy, okysličujeme mozky!</h2>
-      <p>Těšíme se na vás a na společně strávený večer. Bude vás to bavit, a ještě se něco dozvíte a potkáte se s novými a zajímavými lidmi.</p>
-      <p class="signature">Za tým Franchise Clubu<br /><strong>Jaroslav Tamchyna, prezident Franchise Clubu</strong></p>
-      <p>Pokud máte nějaké další otázky nebo potřebujete více informací, neváhejte se na mě obrátit.</p>
+      <div class="section-head">
+        <h2>Proběhlo</h2>
+        <a href={href('akce/')}>Všechny proběhlé akce</a>
+      </div>
+      <div class="grid-past">
+        {recent.map((e) => <PastCard event={e} />)}
+      </div>
     </div>
   </section>
 
@@ -111,13 +101,4 @@ const longName = (n: number, kind: string) =>
     </div>
   </section>
 
-  <section class="section section--stone">
-    <div class="wrap">
-      <h2>Proběhlo</h2>
-      <div class="grid-past">
-        {recent.map((e) => <PastCard event={e} />)}
-      </div>
-      <p style="margin-top:24px"><a class="btn btn--ghost" href={href('akce/')}>Všechny proběhlé akce</a></p>
-    </div>
-  </section>
 </Base>
