@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import Practical from '../components/Practical.astro';
 import EventBlock from '../components/EventBlock.astro';
 import { getEvents, href, img, fmtShort, fmtLong } from '../lib/util';
-import { contact } from '../data/site';
+import { contact, patrons } from '../data/site';
 
 // Stejný obsah a pořadí jako původní úvodní stránka:
 // levý sloupec „připravujeme“, pravý sloupec „proběhlo“.
@@ -13,7 +13,8 @@ const next = upcoming[0];
 ---
 <Base title="home">
   <section class="banner-band" aria-label="Poznat, pochopit, použít">
-    <div class="container">
+    <div class="container banner-grid">
+      <div>
       <p class="banner-slogan">Poznat, pochopit, použít&nbsp;…</p>
       <p class="banner-sub">Franchise Club – klub pro dialog, spolupráci a růst (nejen) ve franchisingu od roku 2006</p>
       {next && (
@@ -21,6 +22,13 @@ const next = upcoming[0];
           <span class="bn-label">Příští setkání</span>
           <span class="bn-date">{fmtLong(next.data.date)}, {next.data.start}</span>
           <span class="bn-title">{next.data.title}&nbsp;<span aria-hidden="true">»</span></span>
+        </a>
+      )}
+      </div>
+      {patrons[0] && (
+        <a class="patron-card" href={patrons[0].url} title={patrons[0].name}>
+          <span class="patron-label">Patron klubu</span>
+          <img src={img(patrons[0].logo)} alt={patrons[0].name} width="160" height="80" />
         </a>
       )}
     </div>

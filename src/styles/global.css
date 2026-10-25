@@ -535,3 +535,18 @@ details.m-collapse > summary h2 { display: inline; }
 
 /* 4) jednotné odkazy u akce */
 .ev-more .sep { color: var(--line); margin: 0 10px; }
+
+/* patron klubu v banneru */
+.banner-grid { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: center; }
+.patron-card {
+  display: flex; flex-direction: column; align-items: center; gap: 8px; background: #fff; border-radius: 14px;
+  padding: 14px 22px 16px; box-shadow: 0 14px 34px rgb(80 20 0 / .25); position: relative; z-index: 1;
+}
+.patron-card:hover { text-decoration: none; transform: translateY(-2px); }
+.patron-label { font-size: var(--fs-0); font-weight: 700; color: var(--muted); }
+.patron-card img { width: 150px; height: auto; max-height: 80px; object-fit: contain; }
+@media (max-width: 760px) {
+  .banner-grid { grid-template-columns: 1fr; }
+  .patron-card { flex-direction: row; justify-self: start; padding: 8px 14px; gap: 12px; border-radius: 10px; }
+  .patron-card img { width: 96px; max-height: 44px; }
+}
