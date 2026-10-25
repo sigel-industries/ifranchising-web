@@ -585,3 +585,7 @@ h2.col-title { color: var(--grey-h1); font-size: var(--fs-5); }
 .banner-next { background: rgb(10 29 82 / .88); border-color: rgb(255 255 255 / .25); }   /* bílá na modré: > 12:1 */
 .banner-next:hover { background: var(--brand-dark); }
 .bn-label { background: var(--orange-ink); }
+
+/* kotvy (#mapa, #archiv…) neschovávat pod sticky hlavičku */
+html { scroll-padding-top: 110px; }
+@media (max-width: 1060px) { html { scroll-padding-top: 86px; } }
