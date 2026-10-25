@@ -579,3 +579,9 @@ h2.col-title { color: var(--grey-h1); font-size: var(--fs-5); }
 .btn--primary, .nav-toggle { background: var(--orange-ink); }
 .btn--primary:hover, .nav-toggle:hover { background: #a62f08; }
 .offer-label, .tag--soon, .past .badge { background: var(--orange-ink); }
+
+/* a11y: drobný text v oranžovém banneru */
+.banner-sub { color: #fff; font-size: 1.2rem; font-weight: 700; }   /* velký text: stačí 3:1 (3.71) */
+.banner-next { background: rgb(10 29 82 / .88); border-color: rgb(255 255 255 / .25); }   /* bílá na modré: > 12:1 */
+.banner-next:hover { background: var(--brand-dark); }
+.bn-label { background: var(--orange-ink); }
