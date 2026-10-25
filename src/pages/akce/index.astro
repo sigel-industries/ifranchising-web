@@ -1,7 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import PageHead from '../../components/PageHead.astro';
-import EventRow from '../../components/EventRow.astro';
+import EventBlock from '../../components/EventBlock.astro';
 import PastCard from '../../components/PastCard.astro';
 import { getEvents, href } from '../../lib/util';
 
@@ -15,7 +15,7 @@ const years = [...new Set(past.map((e) => e.data.date.getUTCFullYear()))];
     <div class="wrap">
       <h2>Připravujeme</h2>
       {upcoming.length
-        ? <ul class="timeline">{upcoming.map((e) => <EventRow event={e} soon />)}</ul>
+        ? <div class="featured-list">{upcoming.map((e) => <EventBlock event={e} />)}</div>
         : <p>Program další sezóny brzy zveřejníme. Chcete dostávat pozvánky? <a href={href('kontakt/')}>Napište nám</a>.</p>}
     </div>
   </section>

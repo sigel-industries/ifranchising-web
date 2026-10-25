@@ -114,6 +114,13 @@ const office = contact.people[1];
             <p>{contact.org}<br />{contact.street}, {contact.city}</p>
             <p>Tel. <a href={`tel:${contact.phone.replace(/\s/g, '')}`}>{contact.phone}</a><br /><a href={contact.facebook}>Facebook klubu</a></p>
           </div>
+          <nav aria-label="Patička">
+            <h2>Navigace</h2>
+            <ul class="footer-nav">
+              {nav.map(([p, label]) => <li><a href={href(p)}>{label}</a></li>)}
+              <li><a href={href('akce/')}>všechny akce</a></li>
+            </ul>
+          </nav>
           <div>
             <h2>Kontakty</h2>
             {contact.people.map((p) => (

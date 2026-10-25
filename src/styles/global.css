@@ -445,3 +445,49 @@ details.m-collapse > summary h2 { display: inline; }
   .logo .wordmark b { font-size: .82rem; }
   .nav-toggle { flex-shrink: 0; padding: 9px 12px; }
 }
+
+/* ===== profi polish ===== */
+/* konzistence: tmavé pásy vždy v modré značky */
+.section--petrol { background: var(--brand); }
+.section--petrol h2 { color: #fff; }
+.section--petrol a:not(.btn) { color: #ffd2bf; }
+
+/* kontakty na úvodu: karty osob */
+.people { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 4px 0 18px; }
+.person { background: var(--soft); border-radius: 12px; padding: 16px 18px; }
+.person p { margin: 0; font-size: var(--fs-1); }
+.person-role { color: var(--muted); font-size: var(--fs-0) !important; font-weight: 600; }
+.person-name { font-weight: 800; color: var(--brand); font-size: var(--fs-2) !important; margin: 2px 0 6px !important; }
+@media (max-width: 520px) { .people { grid-template-columns: 1fr; } }
+
+/* akce: nadcházející setkání naplno */
+.featured-list .ev { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 460px); grid-template-areas: "label img" "when img" "title img" "actions img" "rest img"; column-gap: 40px; align-items: start; border-top: 0; padding-top: 0; }
+.featured-list .ev + .ev { border-top: 1px solid var(--line-soft); padding-top: 28px; margin-top: 8px; }
+.featured-list .ev-label { grid-area: label; }
+.featured-list .ev-when { grid-area: when; }
+.featured-list .ev-title { grid-area: title; font-size: var(--fs-5); }
+.featured-list .ev-img { grid-area: img; max-width: none; }
+.featured-list .ev-actions { grid-area: actions; flex-direction: column; align-items: flex-start; }
+@media (max-width: 860px) {
+  .featured-list .ev { grid-template-columns: 1fr; grid-template-areas: "label" "when" "title" "img" "actions"; }
+  .featured-list .ev-title { font-size: var(--fs-4); }
+}
+
+/* mobil: kompaktnější banner, ať je obsah vidět hned */
+@media (max-width: 600px) {
+  .banner-band .container { padding-block: 20px 22px; }
+  .banner-slogan { font-size: 1.6rem; }
+  .banner-sub { display: none; }
+  .banner-next { margin-top: 12px; padding: 10px 14px; font-size: var(--fs-1); }
+  .banner-band::after { width: 160px; height: 160px; right: -30px; top: -20px; }
+  .topbar .contacts > a:not(.hide-sm) { display: none; }
+}
+
+/* patička: navigace */
+.footer-grid { grid-template-columns: 1.3fr .8fr 1fr 1fr; }
+.footer-nav { list-style: none; padding: 0; margin: 0; columns: 2; column-gap: 16px; }
+.footer-nav li { margin-bottom: 6px; }
+.footer-nav a { font-weight: 500; }
+@media (max-width: 960px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .footer-grid { grid-template-columns: 1fr; } }
+@media (max-width: 600px) { .home-cols .club-logo { max-width: 220px; margin-bottom: 12px; } }

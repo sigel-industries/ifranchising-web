@@ -20,8 +20,7 @@ const next = upcoming[0];
         <a class="banner-next" href={href(`akce/${next.id}/`)}>
           <span class="bn-label">Příští setkání</span>
           <span class="bn-date">{fmtLong(next.data.date)}, {next.data.start}</span>
-          <span class="bn-title">{next.data.title}</span>
-          <span aria-hidden="true">»</span>
+          <span class="bn-title">{next.data.title}&nbsp;<span aria-hidden="true">»</span></span>
         </a>
       )}
     </div>
@@ -66,12 +65,22 @@ const next = upcoming[0];
       <details class="ev m-collapse" open>
         <summary><h2>Kontakty</h2></summary>
         <p><strong>Franchise Club</strong> je klub pro dialog, spolupráci a růst (nejen) ve franchisingu, založený v roce 2006 v Praze. Provozovatelem Franchise Clubu je Český institut pro franchising (ČIFRA) – národní centrum pro vzdělávací, popularizační, publikační, poradenskou a vědeckou činnost ve franchisingu.</p>
+        <div class="people">
+          <div class="person">
+            <p class="person-role">prezident klubu</p>
+            <p class="person-name">Jaroslav Tamchyna</p>
+            <p><a href="tel:+420603578035">+420 603 578 035</a><br /><a href="mailto:tamchyna@ifranchising.cz">tamchyna@ifranchising.cz</a></p>
+          </div>
+          <div class="person">
+            <p class="person-role">tajemnice klubu</p>
+            <p class="person-name">Tereza Chábková</p>
+            <p><a href="tel:+420603474035">+420 603 474 035</a><br /><a href="mailto:office@ifranchising.cz">office@ifranchising.cz</a></p>
+          </div>
+        </div>
         <ul class="arrow">
           <li><strong>Kancelář klubu:</strong> {contact.street}, {contact.city}</li>
           <li><strong>Web:</strong> <a href={href()}>www.ifranchising.cz</a></li>
           <li><strong>Facebook:</strong> <a href={contact.facebook}>fb.com/franchiseclub.cz</a></li>
-          <li><strong>prezident klubu:</strong> Jaroslav Tamchyna, tel. <a href="tel:+420603578035">+420 603 578 035</a>, <a href="mailto:tamchyna@ifranchising.cz">tamchyna@ifranchising.cz</a></li>
-          <li><strong>tajemnice klubu:</strong> Tereza Chábková, tel. <a href="tel:+420603474035">+420 603 474 035</a>, <a href="mailto:office@ifranchising.cz">office@ifranchising.cz</a></li>
         </ul>
         <p>Franchise Club a Český institut pro franchising jsou členy největší mezinárodní profesní komunity v oblasti franchisingu – <strong>International Franchise Association</strong> (<a href="https://www.franchise.org/">IFA</a>).</p>
       </details>
