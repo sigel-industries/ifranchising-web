@@ -30,9 +30,11 @@ const longName = (n: number, kind: string) =>
             <a class="btn btn--ghost" href={href(`akce/${next.id}.ics`)} download>Přidat do kalendáře</a>
           </div>
         </div>
-        {next.data.image && (
-          <figure><img src={img(next.data.image)} alt={next.data.title} width="560" height="420" fetchpriority="high" /></figure>
-        )}
+        <figure>
+          {next.data.image
+            ? <img src={img(next.data.image)} alt={`Pozvánka: ${next.data.title}`} width="385" height="203" fetchpriority="high" />
+            : <div class="club-card"><img src={img('franchiseclub330x132.gif')} alt="Franchise Club" width="330" height="132" style="border:0;box-shadow:none" /></div>}
+        </figure>
       </div>
     </section>
   )}
@@ -56,7 +58,7 @@ const longName = (n: number, kind: string) =>
             </div>
           </div>
           {e.data.image && (
-            <figure style="margin:0"><img src={img(e.data.image)} alt={e.data.title} width="300" height="225" /></figure>
+            <figure style="margin:0"><img src={img(e.data.image)} alt={e.data.title} width="385" height="203" /></figure>
           )}
         </article>
       ))}
@@ -66,7 +68,7 @@ const longName = (n: number, kind: string) =>
           <p class="event-label">Nabídka členům klubu na dovolenou nebo teambuilding</p>
           <p class="event-when">Celoročně ve Villa Dallmayr Eva v Toskánsku (<a href="https://www.villadaeva.it">www.villadaeva.it</a>)</p>
         </div>
-        <figure style="margin:0"><img src={img('villa-da-eva.jpg')} alt="Villa Dallmayr Eva v Toskánsku" loading="lazy" width="300" height="225" /></figure>
+        <figure style="margin:0"><img src={img('villa-da-eva.jpg')} alt="Villa Dallmayr Eva v Toskánsku" loading="lazy" width="385" height="203" /></figure>
       </article>
 
       {upcoming.length > 0 && (
