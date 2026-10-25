@@ -1,0 +1,45 @@
+name: Screenshoty webu
+
+# Ruční spuštění: vyfotí původní web i novou verzi (desktop + mobil)
+# a uloží je jako artifact „screenshots“.
+on:
+  workflow_dispatch:
+
+jobs:
+  shots:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: |
+          mkdir s && cd s
+          npm init -y >/dev/null
+          npm i playwright@1.48.2 >/dev/null
+          npx playwright install --with-deps chromium >/dev/null
+          cat > shot.mjs <<'EOF'
+          import { chromium } from 'playwright';
+          const NEW = 'https://sigel-industries.github.io/ifranchising-web/';
+          const pages = [
+            ['old-home', 'https://www.ifranchising.cz/'],
+            ['old-onas', 'https://www.ifranchising.cz/o-nas.php'],
+            ['new-home', NEW],
+            ['new-onas', NEW + 'o-nas/'],
+            ['new-aktivity', NEW + 'aktivity/'],
+            ['new-akce', NEW + 'akce/'],
+          ];
+          const b = await chromium.launch();
+          for (const [w, tag] of [[1440, 'd'], [390, 'm']]) {
+            const p = await b.newPage({ viewport: { width: w, height: 900 } });
+            for (const [name, url] of pages) {
+              await p.goto(url, { waitUntil: 'networkidle', timeout: 60000 }).catch(() => {});
+              await p.screenshot({ path: `out/${name}-${tag}.png`, fullPage: true });
+            }
+          }
+          await b.close();
+          EOF
+          mkdir out && node shot.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: s/out

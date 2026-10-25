@@ -6,7 +6,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 mkdir -p public/img
 
-names=$(grep -rhoE "[A-Za-z0-9_.-]+\.(jpg|jpeg|png|gif)" src/content/events src/data src/pages \
+names=$(grep -rhoE "[A-Za-z0-9_.-]+\.(jpg|jpeg|png|gif)" src/content/events src/data src/pages src/layouts src/components \
   | grep -vE '^(favicon)' | sort -u)
 
 ok=0; fail=0

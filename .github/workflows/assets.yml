@@ -1,0 +1,23 @@
+name: Stáhnout obrázky z původního webu
+
+# Ruční spuštění: stáhne obrázky z www.ifranchising.cz/img/ do public/img/
+# a commitne je do repa, aby web nezávisel na starém serveru.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash scripts/fetch-assets.sh
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/img
+          git diff --cached --quiet && echo "Nic nového" || git commit -m "Obrázky z původního webu"
+          git push
