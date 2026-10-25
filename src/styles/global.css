@@ -334,3 +334,39 @@ details.qa p { padding-bottom: 10px; }
 .section-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; }
 .section-head h2 { margin: 0; }
 @media (max-width: 760px) { .logo img { height: 64px; } .site-header .container { min-height: 70px; } }
+
+/* ===== úvodní stránka v původním formátu ===== */
+.banner-band { background: var(--orange); color: #fff; position: relative; overflow: hidden; }
+.banner-band::after {
+  /* motiv „f“ z loga, jako na původním banneru */
+  content: ''; position: absolute; right: -40px; top: -30px; width: 260px; height: 260px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='4' y='4' width='56' height='56' rx='10' fill='none' stroke='white' stroke-width='5'/%3E%3Cpath d='M22 14h22v8H31v6h12v8H31v14h-9z' fill='white'/%3E%3C/svg%3E") center/contain no-repeat;
+  opacity: .22; transform: rotate(14deg);
+}
+.banner-band .container { padding-block: clamp(26px, 4vw, 44px); position: relative; z-index: 1; }
+.banner-slogan { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 600; letter-spacing: -0.01em; margin: 0 0 6px; }
+.banner-sub { margin: 0; color: #ffe2d4; font-size: var(--fs-2); }
+
+.home-cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(28px, 4vw, 56px); padding-block: clamp(32px, 5vw, 56px); }
+.col-title { font-size: var(--fs-5); color: var(--grey-h1); margin-bottom: 18px; }
+.col--past { border-left: 1px solid var(--line-soft); padding-left: clamp(28px, 4vw, 56px); }
+.home-cols .club-logo { max-width: 330px; width: 100%; margin: 4px auto 24px; }
+@media (max-width: 900px) {
+  .home-cols { grid-template-columns: 1fr; }
+  .col--past { border-left: 0; padding-left: 0; border-top: 1px solid var(--line-soft); padding-top: 28px; }
+}
+
+.ev { padding: 22px 0; border-top: 1px solid var(--line-soft); }
+.col > .ev:first-of-type, .club-logo + .ev { border-top: 0; padding-top: 4px; }
+.ev-label { position: relative; padding-left: 18px; font-weight: 700; color: var(--dark); margin-bottom: 4px; line-height: 1.4; }
+.ev-label::before { content: ''; position: absolute; left: 0; top: .42em; border: 6px solid transparent; border-left: 9px solid var(--orange); border-right: 0; }
+.ev-when { color: var(--muted); font-size: var(--fs-1); margin-bottom: 12px; }
+.ev-title { font-size: var(--fs-3); margin-bottom: 14px; }
+.ev-title a { color: var(--orange-ink); font-weight: 800; }
+.ev-title a:hover { color: var(--orange); }
+.ev-img { display: block; max-width: 460px; }
+.ev-img img { width: 100%; height: auto; border-radius: 6px; border: 1px solid var(--line-soft); box-shadow: 0 6px 18px rgb(16 41 107 / .10); transition: transform .2s, box-shadow .2s; }
+.ev-img:hover img { transform: translateY(-2px); box-shadow: 0 10px 26px rgb(16 41 107 / .18); }
+.ev-more { margin: 12px 0 0; font-size: var(--fs-1); }
+.ev h2 { font-size: var(--fs-4); }
+.home-cols .facts { grid-template-columns: 1fr; }

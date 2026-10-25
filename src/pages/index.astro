@@ -1,104 +1,77 @@
 ---
 import Base from '../layouts/Base.astro';
 import Practical from '../components/Practical.astro';
-import PastCard from '../components/PastCard.astro';
-import { getEvents, href, img, fmtLong, fmtShort } from '../lib/util';
+import EventBlock from '../components/EventBlock.astro';
+import { getEvents, href, img, fmtShort } from '../lib/util';
 import { contact } from '../data/site';
 
-// Struktura jako na původní úvodní stránce:
-// příští večer → pozvánka a termíny → proběhlo → praktické informace → kontakty
+// Stejný obsah a pořadí jako původní úvodní stránka:
+// levý sloupec „připravujeme“, pravý sloupec „proběhlo“.
 const { upcoming, past } = await getEvents();
-const recent = past.slice(0, 9);
-const next = upcoming[0];
-const longName = (n: number, kind: string) =>
-  kind === 'vecer'
-    ? `${n}. vzdělávací, inspirativní a networkingové setkání Franchise Clubu`
-    : `${n}. exkurze Franchise Clubu na zajímavá a exkluzivní místa`;
+const recent = past.slice(0, 8);
 ---
 <Base title="home">
-  {next && (
-    <section class="hero">
-      <div class="container">
-        <div>
-          <p class="hero-kicker">Připravujeme · {longName(next.data.number, next.data.kind)}</p>
-          <h1>{next.data.title}</h1>
-          <p class="meta"><strong>{fmtLong(next.data.date)}</strong>, {next.data.start}–{next.data.end}</p>
-          <p class="meta">{next.data.venue}</p>
-          {next.data.speakers && <p class="meta">Host: <strong>{next.data.speakers}</strong></p>}
-          <div class="btn-row">
-            <a class="btn btn--primary" href={href(`akce/${next.id}/`)}>Více o večeru</a>
-            <a class="btn btn--ghost" href={href(`akce/${next.id}.ics`)} download>Přidat do kalendáře</a>
-          </div>
-        </div>
-        <figure>
-          {next.data.image
-            ? <img src={img(next.data.image)} alt={`Pozvánka: ${next.data.title}`} width="385" height="203" fetchpriority="high" />
-            : <div class="club-card"><img src={img('franchiseclub330x132.gif')} alt="Franchise Club" width="330" height="132" style="border:0;box-shadow:none" /></div>}
-        </figure>
-      </div>
-    </section>
-  )}
+  <section class="banner-band" aria-label="Poznat, pochopit, použít">
+    <div class="container">
+      <p class="banner-slogan">Poznat, pochopit, použít …</p>
+      <p class="banner-sub">Franchise Club – klub pro dialog, spolupráci a růst (nejen) ve franchisingu od roku 2006</p>
+    </div>
+  </section>
 
-  <section class="section">
-    <div class="wrap cols-2 intro">
-      <div>
+  <div class="container home-cols">
+    <section class="col" aria-labelledby="pripravujeme">
+      <h1 id="pripravujeme" class="col-title">připravujeme</h1>
+      <img class="club-logo" src={img('franchiseclub330x132.gif')} alt="Franchise Club – klub pro dialog a spolupráci ve franchisingu" width="330" height="132" />
+
+      {upcoming.length === 0 && <p>Program další sezóny brzy zveřejníme.</p>}
+      {upcoming.map((e) => <EventBlock event={e} />)}
+
+      <article class="ev">
+        <p class="ev-label">Nabídka členům klubu na dovolenou nebo teambuilding</p>
+        <p class="ev-when">Celoročně ve Villa Dallmayr Eva v Toskánsku (<a href="https://www.villadaeva.it">www.villadaeva.it</a>)</p>
+        <a class="ev-img" href="https://www.villadaeva.it"><img src={img('villa-da-eva.jpg')} alt="Villa Dallmayr Eva v Toskánsku" loading="lazy" width="385" height="203" /></a>
+      </article>
+
+      {upcoming.length > 0 && (
+        <article class="ev">
+          <p class="ev-label">Plánované termíny klubových setkání</p>
+          <p>Termíny klubů:</p>
+          <ul class="arrow">
+            {upcoming.map((e) => <li><a href={href(`akce/${e.id}/`)}>{fmtShort(e.data.date)}</a> – {e.data.title}</li>)}
+          </ul>
+        </article>
+      )}
+
+      <article class="ev">
         <h2>Otevíráme hlavy, okysličujeme mozky!</h2>
         <p>Těšíme se na vás a na společně strávený večer. Bude vás to bavit, a ještě se něco dozvíte a potkáte se s novými a zajímavými lidmi.</p>
-        <p class="signature">Za tým Franchise Clubu<br /><strong>Jaroslav Tamchyna, prezident Franchise Clubu</strong></p>
-        <p>Pokud máte nějaké další otázky nebo potřebujete více informací, neváhejte se na mě obrátit.</p>
+        <p class="signature">Za tým Franchise Clubu<br /><strong>JAROSLAV TAMCHYNA, prezident Franchise Clubu</strong></p>
+        <p>Pokud máte nějaké další otázky nebo potřebujete více informací, neváhejte se na mě obrátit!</p>
+      </article>
 
-        {upcoming.length > 0 && (
-          <div class="dates">
-            <h3>Plánované termíny klubových setkání</h3>
-            <ul class="arrow">
-              {upcoming.map((e) => <li><a href={href(`akce/${e.id}/`)}>{fmtShort(e.data.date)}</a> – {e.data.title}</li>)}
-            </ul>
-          </div>
-        )}
-        {upcoming.length === 0 && <p>Program další sezóny brzy zveřejníme.</p>}
-      </div>
+      <article class="ev">
+        <h2>Praktické informace</h2>
+        <Practical />
+      </article>
 
-      <aside class="member-offer">
-        <p class="offer-label">Pro členy klubu</p>
-        <h3>Dovolená nebo teambuilding v Toskánsku</h3>
-        <p>Celoročně ve Villa Dallmayr Eva nedaleko Florencie.</p>
-        <a href="https://www.villadaeva.it"><img src={img('villa-da-eva.jpg')} alt="Villa Dallmayr Eva v Toskánsku" loading="lazy" width="385" height="203" /></a>
-        <p style="margin:12px 0 0"><a href="https://www.villadaeva.it">www.villadaeva.it</a></p>
-      </aside>
-    </div>
-  </section>
+      <article class="ev">
+        <h2>Kontakty</h2>
+        <p><strong>Franchise Club</strong> je klub pro dialog, spolupráci a růst (nejen) ve franchisingu, založený v roce 2006 v Praze. Provozovatelem Franchise Clubu je Český institut pro franchising (ČIFRA) – národní centrum pro vzdělávací, popularizační, publikační, poradenskou a vědeckou činnost ve franchisingu.</p>
+        <ul class="arrow">
+          <li><strong>Kancelář klubu:</strong> {contact.street}, {contact.city}</li>
+          <li><strong>Web:</strong> <a href={href()}>www.ifranchising.cz</a></li>
+          <li><strong>Facebook:</strong> <a href={contact.facebook}>fb.com/franchiseclub.cz</a></li>
+          <li><strong>prezident klubu:</strong> Jaroslav Tamchyna, tel. <a href="tel:+420603578035">+420 603 578 035</a>, <a href="mailto:tamchyna@ifranchising.cz">tamchyna@ifranchising.cz</a></li>
+          <li><strong>tajemnice klubu:</strong> Tereza Chábková, tel. <a href="tel:+420603474035">+420 603 474 035</a>, <a href="mailto:office@ifranchising.cz">office@ifranchising.cz</a></li>
+        </ul>
+        <p>Franchise Club a Český institut pro franchising jsou členy největší mezinárodní profesní komunity v oblasti franchisingu – <strong>International Franchise Association</strong> (<a href="https://www.franchise.org/">IFA</a>).</p>
+      </article>
+    </section>
 
-  <section class="section section--stone">
-    <div class="wrap">
-      <div class="section-head">
-        <h2>Proběhlo</h2>
-        <a href={href('akce/')}>Všechny proběhlé akce</a>
-      </div>
-      <div class="grid-past">
-        {recent.map((e) => <PastCard event={e} />)}
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="wrap">
-      <h2>Praktické informace</h2>
-      <Practical />
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="wrap">
-      <h2>Kontakty</h2>
-      <p><strong>Franchise Club</strong> je klub pro dialog, spolupráci a růst (nejen) ve franchisingu, založený v roce 2006 v Praze. Provozovatelem Franchise Clubu je Český institut pro franchising (ČIFRA) – národní centrum pro vzdělávací, popularizační, publikační, poradenskou a vědeckou činnost ve franchisingu.</p>
-      <ul class="arrow">
-        <li><strong>Kancelář klubu:</strong> {contact.street}, {contact.city}</li>
-        <li><strong>Facebook:</strong> <a href={contact.facebook}>fb.com/franchiseclub.cz</a></li>
-        <li><strong>Prezident klubu:</strong> Jaroslav Tamchyna, tel. <a href="tel:+420603578035">+420 603 578 035</a>, <a href="mailto:tamchyna@ifranchising.cz">tamchyna@ifranchising.cz</a></li>
-        <li><strong>Tajemnice klubu:</strong> Tereza Chábková, tel. <a href="tel:+420603474035">+420 603 474 035</a>, <a href="mailto:office@ifranchising.cz">office@ifranchising.cz</a></li>
-      </ul>
-      <p>Franchise Club a Český institut pro franchising jsou členy největší mezinárodní profesní komunity v oblasti franchisingu – International Franchise Association (<a href="https://www.franchise.org/">IFA</a>).</p>
-    </div>
-  </section>
-
+    <section class="col col--past" aria-labelledby="probehlo">
+      <h1 id="probehlo" class="col-title">proběhlo</h1>
+      {recent.map((e) => <EventBlock event={e} />)}
+      <p class="ev-more" style="margin-top:8px"><a class="btn btn--dark" href={href('akce/')}>Všechny proběhlé akce</a></p>
+    </section>
+  </div>
 </Base>

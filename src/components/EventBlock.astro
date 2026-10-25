@@ -1,0 +1,24 @@
+---
+// Akce v původním formátu z ifranchising.cz:
+// ► číslo a typ setkání / datum, čas, místo / název / pozvánka / odkaz na e-pozvánku
+import { href, img, fmtLong, type ClubEvent } from '../lib/util';
+interface Props { event: ClubEvent }
+const { event: e } = Astro.props;
+const d = e.data;
+const label =
+  d.kind === 'vecer'
+    ? `${d.number}. vzdělávací, inspirativní a networkingové setkání Franchise Clubu`
+    : `${d.number}. exkurze Franchise Clubu na zajímavá a exkluzivní místa`;
+const detail = href(`akce/${e.id}/`);
+---
+<article class="ev">
+  <p class="ev-label">{label}</p>
+  <p class="ev-when">{fmtLong(d.date)}, {d.start} – {d.end} v {d.venue}</p>
+  <h3 class="ev-title"><a href={detail}>{d.title}</a></h3>
+  {d.image && (
+    <a class="ev-img" href={detail}><img src={img(d.image)} alt={`Pozvánka: ${d.title}`} loading="lazy" width="385" height="203" /></a>
+  )}
+  {d.invite
+    ? <p class="ev-more"><a href={d.invite}>Další informace v e-pozvánce</a> »</p>
+    : <p class="ev-more"><a href={detail}>Více o setkání</a> »</p>}
+</article>
