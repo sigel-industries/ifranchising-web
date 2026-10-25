@@ -32,7 +32,8 @@ jobs:
       - run: npm ci
       - name: Pracovní verze – zakázat indexování
         if: ${{ !vars.PRODUCTION }}
-        run: printf 'User-agent: *\nDisallow: /\n' > public/robots.txt
+        run: |
+          printf 'User-agent: *\nDisallow: /\n' > public/robots.txt
       - run: npm run build
         env:
           SITE_URL: ${{ steps.pages.outputs.origin }}
