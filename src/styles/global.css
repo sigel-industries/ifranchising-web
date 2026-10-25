@@ -574,3 +574,8 @@ h2.col-title { color: var(--grey-h1); font-size: var(--fs-5); }
 .topbar .flags a { display: inline-flex; align-items: center; justify-content: center; min-width: 32px; min-height: 32px; }
 .topbar .contacts > a { padding-block: 8px; }
 .logo img { width: auto; }
+
+/* a11y: biely text na oranžové – tmavší odstín pro kontrast ≥ 4.5:1 (WCAG AA) */
+.btn--primary, .nav-toggle { background: var(--orange-ink); }
+.btn--primary:hover, .nav-toggle:hover { background: #a62f08; }
+.offer-label, .tag--soon, .past .badge { background: var(--orange-ink); }
