@@ -23,9 +23,10 @@ const mail = `mailto:${office}?subject=${encodeURIComponent(`Zájem o účast: $
     <a class="ev-img" href={detail}><img src={img(d.image)} alt={`Pozvánka: ${d.title}`} loading="lazy" width="385" height="203" /></a>
   )}
   <div class="ev-actions">
-    {d.invite
-      ? <p class="ev-more"><a href={d.invite}>Další informace v e-pozvánce</a> »</p>
-      : <p class="ev-more"><a href={detail}>Více o setkání</a> »</p>}
+    <p class="ev-more">
+      <a href={detail}>Detail setkání</a> »
+      {d.invite && <><span class="sep" aria-hidden="true">|</span><a href={d.invite}>Další informace v e-pozvánce</a> »</>}
+    </p>
     {upcoming && (
       <p class="ev-cta">
         <a class="btn btn--primary btn--sm" href={mail}>Mám zájem přijít</a>

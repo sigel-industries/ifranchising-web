@@ -491,3 +491,47 @@ details.m-collapse > summary h2 { display: inline; }
 @media (max-width: 960px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 560px) { .footer-grid { grid-template-columns: 1fr; } }
 @media (max-width: 600px) { .home-cols .club-logo { max-width: 220px; margin-bottom: 12px; } }
+
+/* ===== polish 2 ===== */
+/* 1) typografie textových stránek */
+.prose p, .prose li { max-width: 66ch; }
+.prose h2 { margin-top: 1.8em; margin-bottom: .45em; }
+.prose h2:first-child { margin-top: 0; }
+.prose p + h2 { padding-top: .2em; }
+.page-head .lead { max-width: 62ch; }
+.split > div:first-child h2 { scroll-margin-top: 110px; }
+
+/* 2) archiv: sezóny jako rozbalovací bloky */
+.archive details.season { border-top: 1px solid var(--line-soft); }
+.archive details.season:last-child { border-bottom: 1px solid var(--line-soft); }
+.archive details.season > summary {
+  list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: baseline;
+  gap: 12px; padding: 16px 36px 16px 0; position: relative;
+}
+.archive details.season > summary::-webkit-details-marker { display: none; }
+.archive details.season > summary::after { content: '+'; position: absolute; right: 6px; top: 12px; font-size: 1.5rem; font-weight: 700; color: var(--orange); }
+.archive details.season[open] > summary::after { content: '−'; }
+.archive details.season > summary:hover .season-name { color: var(--orange-ink); }
+.season-name { font-weight: 800; color: var(--brand); font-size: var(--fs-3); }
+.season-count { color: var(--muted); font-size: var(--fs-0); white-space: nowrap; }
+.archive details.season > ul, .archive details.season > p { margin-top: 0; padding-bottom: 14px; }
+.archive-search { position: sticky; top: 96px; z-index: 5; background: var(--paper); padding: 12px 0 4px; }
+@media (max-width: 1060px) { .archive-search { top: 74px; } }
+
+/* 3) jednotné stavy + skeleton pozvánek */
+.ev-img img, .past img, .t-item img, .detail-invite, .featured-list .ev-img img {
+  background: linear-gradient(110deg, #eef1f6 30%, #f8f9fc 50%, #eef1f6 70%) 0 0 / 300% 100%;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .ev-img img:not([data-loaded]), .past img:not([data-loaded]) { animation: shimmer 1.4s linear infinite; }
+  @keyframes shimmer { to { background-position: -150% 0; } }
+}
+.past { border-radius: 8px; transition: transform .2s; }
+.past:hover { transform: translateY(-2px); }
+.past:hover img, .past:focus-visible img { box-shadow: 0 10px 26px rgb(16 41 107 / .18); }
+.past:focus-visible { outline-offset: 4px; }
+.ev-img:focus-visible { outline-offset: 4px; border-radius: 6px; }
+@media (prefers-reduced-motion: reduce) { .past, .ev-img img { transition: none; } .past:hover { transform: none; } }
+
+/* 4) jednotné odkazy u akce */
+.ev-more .sep { color: var(--line); margin: 0 10px; }

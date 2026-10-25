@@ -95,25 +95,44 @@ const international: [string, string, string][] = [
         const box = document.getElementById('archiv-obsah')!;
         const count = document.getElementById('archiv-pocet')!;
         const norm = (t: string) => t.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-        // seskupit: každý nadpis sezóny + položky pod ním
-        const groups: { h: HTMLElement; items: HTMLElement[] }[] = [];
-        box.querySelectorAll<HTMLElement>(':scope > *').forEach((el) => {
-          if (el.tagName === 'H2') groups.push({ h: el, items: [] });
-          else if (groups.length) {
-            if (el.tagName === 'UL') el.querySelectorAll<HTMLElement>('li').forEach((li) => groups.at(-1)!.items.push(li));
-            else groups.at(-1)!.items.push(el);
+
+        // Sezóny jako rozbalovací bloky (nejnovější otevřená). Bez JS zůstane vše rozbalené.
+        type Group = { d: HTMLDetailsElement; items: HTMLElement[] };
+        const groups: Group[] = [];
+        [...box.children].forEach((el) => {
+          if (el.tagName === 'H2') {
+            const d = document.createElement('details');
+            d.className = 'season';
+            const sum = document.createElement('summary');
+            sum.innerHTML = `<span class="season-name">${el.textContent}</span><span class="season-count"></span>`;
+            d.append(sum);
+            el.replaceWith(d);
+            groups.push({ d, items: [] });
+          } else if (groups.length) {
+            const g = groups.at(-1)!;
+            g.d.append(el);
+            if (el.tagName === 'UL') el.querySelectorAll<HTMLElement>('li').forEach((li) => g.items.push(li));
+            else g.items.push(el as HTMLElement);
           }
         });
+        groups.forEach((g, i) => {
+          const n = g.items.reduce((a, it) => a + (it.tagName === 'LI' ? 1 : (it.textContent || '').split('·').length), 0);
+          g.d.querySelector('.season-count')!.textContent = `${n} setkání`;
+          g.d.open = i === 0;
+        });
+
         input.addEventListener('input', () => {
           const q = norm(input.value.trim());
           let n = 0;
-          groups.forEach((g) => {
+          groups.forEach((g, i) => {
             let any = false;
             g.items.forEach((it) => {
               const hit = !q || norm(it.textContent || '').includes(q);
-              it.hidden = !hit; if (hit) { any = true; if (q) n++; }
+              it.hidden = !hit;
+              if (hit) { any = true; if (q) n++; }
             });
-            g.h.hidden = !any;
+            g.d.hidden = !any;
+            g.d.open = q ? any : i === 0;
           });
           count.textContent = q ? (n ? `Nalezeno: ${n}` : 'Nic nenalezeno. Zkuste jiné jméno nebo značku.') : '';
         });

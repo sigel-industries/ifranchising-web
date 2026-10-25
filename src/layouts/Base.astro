@@ -138,6 +138,11 @@ const office = contact.people[1];
     <script>
       const btn = document.querySelector<HTMLButtonElement>('.nav-toggle');
       const nav = document.getElementById('hlavni-menu');
+      // ukončit skeleton animaci po načtení obrázku
+      document.querySelectorAll<HTMLImageElement>('.ev-img img, .past img').forEach((i) => {
+        const done = () => i.setAttribute('data-loaded', '');
+        i.complete ? done() : i.addEventListener('load', done, { once: true });
+      });
       btn?.addEventListener('click', () => {
         const open = nav!.classList.toggle('is-open');
         btn.setAttribute('aria-expanded', String(open));
