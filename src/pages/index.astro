@@ -9,19 +9,40 @@ import { contact } from '../data/site';
 // připravujeme → termíny → pozvánka → praktické informace → kontakty → proběhlo
 const { upcoming, past } = await getEvents();
 const recent = past.slice(0, 9);
+const next = upcoming[0];
 const longName = (n: number, kind: string) =>
   kind === 'vecer'
     ? `${n}. vzdělávací, inspirativní a networkingové setkání Franchise Clubu`
     : `${n}. exkurze Franchise Clubu na zajímavá a exkluzivní místa`;
 ---
 <Base title="home">
+  {next && (
+    <section class="hero">
+      <div class="container">
+        <div>
+          <p class="hero-kicker">Připravujeme · {longName(next.data.number, next.data.kind)}</p>
+          <h1>{next.data.title}</h1>
+          <p class="meta"><strong>{fmtLong(next.data.date)}</strong>, {next.data.start}–{next.data.end}</p>
+          <p class="meta">{next.data.venue}</p>
+          {next.data.speakers && <p class="meta">Host: <strong>{next.data.speakers}</strong></p>}
+          <div class="btn-row">
+            <a class="btn btn--primary" href={href(`akce/${next.id}/`)}>Více o večeru</a>
+            <a class="btn btn--ghost" href={href(`akce/${next.id}.ics`)} download>Přidat do kalendáře</a>
+          </div>
+        </div>
+        {next.data.image && (
+          <figure><img src={img(next.data.image)} alt={next.data.title} width="560" height="420" fetchpriority="high" /></figure>
+        )}
+      </div>
+    </section>
+  )}
+
   <section class="section">
     <div class="wrap">
-      <h1>připravujeme</h1>
       <a href={href('akce/')}><img class="club-logo" src={img('franchiseclub330x132.gif')} alt="Franchise Club" /></a>
 
       {upcoming.length === 0 && <p>Program další sezóny brzy zveřejníme.</p>}
-      {upcoming.map((e) => (
+      {upcoming.slice(1).map((e) => (
         <article class="event">
           <div>
             <p class="event-label">{longName(e.data.number, e.data.kind)}</p>
@@ -91,7 +112,7 @@ const longName = (n: number, kind: string) =>
 
   <section class="section section--stone">
     <div class="wrap">
-      <h1>proběhlo</h1>
+      <h2>Proběhlo</h2>
       <div class="grid-past">
         {recent.map((e) => <PastCard event={e} />)}
       </div>

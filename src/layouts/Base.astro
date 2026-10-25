@@ -21,10 +21,11 @@ const isCurrent = (p: string) => (p === '' ? path === home || path.startsWith(hr
 const link = (p: Partner) => (p.url.startsWith('/') ? href(p.url) : p.url);
 const year = new Date().getFullYear();
 const groups: [string, Partner[]][] = [
-  ['Patroni klubu', patrons],
+  ['Patron klubu', patrons],
   ['Produktoví partneři', productPartners],
-  ['Odborní partneři klubu', expertPartners],
+  ['Odborní partneři', expertPartners],
 ];
+const office = contact.people[1];
 ---
 <!doctype html>
 <html lang="cs">
@@ -42,48 +43,62 @@ const groups: [string, Partner[]][] = [
     {image && <meta property="og:image" content={image} />}
     <meta name="theme-color" content="#333333" />
     <link rel="icon" href={href('favicon.svg')} type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400..800;1,400&display=swap" />
   </head>
   <body>
     <a class="skip" href="#obsah">Přeskočit na obsah</a>
-    <div class="page">
-      <header class="site-header">
+
+    <div class="topbar">
+      <div class="container">
+        <span class="slogan">Poznat, pochopit, použít…</span>
+        <span class="contacts">
+          <a class="hide-sm" href={`tel:${office.phone.replace(/\s/g, '')}`}>{office.phone}</a>
+          <a href={`mailto:${office.email}`}>{office.email}</a>
+          <span class="flags">
+            <a href={home} title="česky"><img src={img('czech-flag.gif')} alt="česky" /></a>
+            <a href="http://www.ifranchise.cz" hreflang="en" lang="en" title="English"><img src={img('english-flag.gif')} alt="English" /></a>
+          </span>
+        </span>
+      </div>
+    </div>
+
+    <header class="site-header">
+      <div class="container">
         <a class="logo" href={home}>
           <img src={img('cesky-institut-franchisingu.gif')} alt="Český institut pro franchising" />
         </a>
-        <div class="banner">
-          <img src={img('top-banner.gif')} alt="Poznat, pochopit, použít…" />
-        </div>
         <button class="nav-toggle" aria-expanded="false" aria-controls="hlavni-menu">Menu</button>
         <nav class="menu" id="hlavni-menu" aria-label="Hlavní navigace">
           {nav.map(([p, label]) => (
             <a href={href(p)} aria-current={isCurrent(p) ? 'page' : undefined}>{label}</a>
           ))}
-          <span class="flags">
-            <a href="http://www.ifranchise.cz" hreflang="en" lang="en" title="English"><img src={img('english-flag.gif')} alt="English" /></a>
-            <a href={home} title="česky"><img src={img('czech-flag.gif')} alt="česky" /></a>
-          </span>
         </nav>
-      </header>
-
-      <div class="layout">
-        <aside class="sidebar" aria-label="Patroni a partneři">
-          {groups.map(([t, list]) => (
-            <>
-              <h2>{t}</h2>
-              <div class="logo-stack">
-                {list.map((p) => (
-                  <a href={link(p)} title={p.name}><img src={img(p.logo)} alt={p.name} loading="lazy" /></a>
-                ))}
-              </div>
-            </>
-          ))}
-        </aside>
-        <main id="obsah">
-          <slot />
-        </main>
       </div>
+    </header>
 
-      <footer class="site-footer">
+    <main id="obsah">
+      <slot />
+    </main>
+
+    <section class="partners-strip" aria-label="Patroni a partneři">
+      <div class="container groups">
+        {groups.map(([t, list]) => (
+          <div>
+            <h2>{t}</h2>
+            <div class="row">
+              {list.map((p) => (
+                <a href={link(p)} title={p.name}><img src={img(p.logo)} alt={p.name} loading="lazy" /></a>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div class="container">
         <div class="footer-grid">
           <div>
             <h2>Český institut pro franchising</h2>
@@ -98,16 +113,16 @@ const groups: [string, Partner[]][] = [
           <div>
             <h2>Kontakty</h2>
             {contact.people.map((p) => (
-              <p>{p.name}<br /><a href={`mailto:${p.email}`}>{p.email}</a>, <a href={`tel:${p.phone.replace(/\s/g, '')}`}>{p.phone}</a></p>
+              <p>{p.name}<br /><a href={`mailto:${p.email}`}>{p.email}</a><br /><a href={`tel:${p.phone.replace(/\s/g, '')}`}>{p.phone}</a></p>
             ))}
           </div>
         </div>
         <div class="footer-bottom">
-          <span>© Copyright 2006–{year} Český institut pro franchising – všechna práva vyhrazena.</span>
+          <span>© 2006–{year} Český institut pro franchising, s.r.o.</span>
           <a href="https://www.ifranchising.cz/osobni-udaje.php">Zásady ochrany osobních údajů</a>
         </div>
-      </footer>
-    </div>
+      </div>
+    </footer>
 
     <script>
       const btn = document.querySelector<HTMLButtonElement>('.nav-toggle');
