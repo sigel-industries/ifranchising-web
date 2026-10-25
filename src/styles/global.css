@@ -435,3 +435,13 @@ details.m-collapse > summary h2 { display: inline; }
 /* sjednocená loga partnerů */
 .partners-strip a { width: 132px; height: 72px; padding: 10px 14px; }
 .partners-strip img { max-width: 100%; max-height: 46px; }
+
+/* mobil: logo + název + Menu se vejdou na 360 px */
+@media (max-width: 520px) {
+  .site-header .container { gap: 10px; }
+  .logo { gap: 8px; min-width: 0; flex-shrink: 1; }
+  .logo img { height: 52px; }
+  .logo .wordmark { min-width: 0; }
+  .logo .wordmark b { font-size: .82rem; }
+  .nav-toggle { flex-shrink: 0; padding: 9px 12px; }
+}
