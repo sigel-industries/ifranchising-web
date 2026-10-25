@@ -1,35 +1,35 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
+import { href, img } from '../lib/util';
 import { contact } from '../data/site';
 
 // Formulář: pokud je nastaven PUBLIC_FORM_ENDPOINT (např. Formspree / Web3Forms),
 // odešle se tam. Jinak se otevře e-mailový klient s předvyplněnou zprávou.
 const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT ?? '';
 const officeEmail = contact.people[1].email;
+const mapQuery = 'Spálená 51, 110 00 Praha 1';
 ---
 <Base title="Kontakt" description="Kontakt na Český institut pro franchising a Franchise Club, Spálená 51, Praha 1.">
   <PageHead title="kontakt" lead="Kancelář máme v centru Prahy, ve Spálené 51, kousek od stanice metra Národní třída." />
 
   <section class="section">
-    <div class="wrap cols-2">
+    <div class="wrap cols-2 contact-top">
       <div>
-        {contact.people.map((p) => (
-          <div style="padding:20px 0;border-top:1px solid var(--line)">
-            <h2 style="font-size:var(--fs-3);margin-bottom:4px">{p.name}</h2>
-            <p class="muted" style="margin-bottom:8px">{p.role}</p>
-            <p class="ui" style="margin:0">
-              <a href={`mailto:${p.email}`}>{p.email}</a><br />
-              <a href={`tel:${p.phone.replace(/\s/g, '')}`}>{p.phone}</a>
-            </p>
-          </div>
-        ))}
-        <div style="padding:20px 0;border-top:1px solid var(--line)">
-          <h2 style="font-size:var(--fs-3);margin-bottom:4px">{contact.org}</h2>
-          <p style="margin-bottom:8px">{contact.street}, {contact.city}<br />Tel. <a href={`tel:${contact.phone.replace(/\s/g, '')}`}>{contact.phone}</a></p>
-          <p class="muted" style="font-size:var(--fs-0)">IČ {contact.ico}. {contact.register}</p>
-          <p class="muted" style="font-size:var(--fs-0)">Ve stejné kanceláři sídlí také Franchise Club a poradenská firma FranKey – franchising consulting.</p>
-          <p><a href="https://maps.google.com/?q=Sp%C3%A1len%C3%A1+51,+Praha+1">Otevřít v mapách</a></p>
+        <div class="people people--lg">
+          {contact.people.map((p) => (
+            <div class="person">
+              <p class="person-role">{p.role}</p>
+              <p class="person-name">{p.name}</p>
+              <p><a href={`tel:${p.phone.replace(/\s/g, '')}`}>{p.phone}</a><br /><a href={`mailto:${p.email}`}>{p.email}</a></p>
+            </div>
+          ))}
+        </div>
+
+        <div class="office">
+          <h2>{contact.org}</h2>
+          <p>{contact.street}, {contact.city}<br />Tel. <a href={`tel:${contact.phone.replace(/\s/g, '')}`}>{contact.phone}</a></p>
+          <p class="muted small">IČ {contact.ico}. {contact.register}</p>
         </div>
       </div>
 
@@ -45,9 +45,26 @@ const officeEmail = contact.people[1].email;
             <label>Telefon<input name="telefon" type="tel" autocomplete="tel" /></label>
           </div>
           <label>Zpráva<textarea name="zprava" rows="6" required></textarea></label>
-          <p class="form-note">Údaje použijeme jen k odpovědi na vaši zprávu. <a href="https://www.ifranchising.cz/osobni-udaje.php">Zásady ochrany osobních údajů</a></p>
+          <p class="form-note">Údaje použijeme jen k odpovědi na vaši zprávu. <a href={href('osobni-udaje/')}>Zásady ochrany osobních údajů</a></p>
           <div><button class="btn btn--dark" type="submit">Odeslat zprávu</button></div>
         </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--stone" id="mapa">
+    <div class="wrap">
+      <h2>Kde nás najdete?</h2>
+      <p>Český institut pro franchising (ČIFRA) má kancelář v centru Prahy, ve Spálené ulici č. 51, naproti supermarketu TESCO a vedle stanice metra „NÁRODNÍ“ a stanice tramvají „Národní třída“.</p>
+      <p>Spolu s ČIFRA zde má kancelář „Franchise Club“ a poradenská firma „FranKey – franchising consulting“.</p>
+      <div class="find-us">
+        <div class="map">
+          <iframe src={`https://maps.google.com/maps?q=${encodeURIComponent(mapQuery)}&z=16&output=embed`} title={`Mapa: ${mapQuery}`} loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+        <figure>
+          <img src={img('spalena-51.jpg')} alt="Dům Spálená 51, Praha 1 – kancelář ČIFRA" loading="lazy" />
+          <figcaption>Spálená 51, Praha 1 · <a href={`https://maps.google.com/?q=${encodeURIComponent(mapQuery)}`}>Navigovat</a></figcaption>
+        </figure>
       </div>
     </div>
   </section>

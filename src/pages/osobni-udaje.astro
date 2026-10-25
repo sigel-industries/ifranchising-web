@@ -1,0 +1,12 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+// Text převzatý doslovně z https://www.ifranchising.cz/osobni-udaje.php (zveřejněno 17. 5. 2018).
+import { Content } from '../data/osobni-udaje.md';
+---
+<Base title="Zásady ochrany osobních údajů" description="Zásady ochrany osobních údajů Českého institutu pro franchising.">
+  <PageHead title="zásady ochrany osobních údajů" />
+  <section class="section">
+    <div class="wrap prose"><Content /></div>
+  </section>
+</Base>
